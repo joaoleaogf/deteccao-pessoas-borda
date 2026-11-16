@@ -1,0 +1,23 @@
+Edge TPU Compiler version 14.1.317412892
+
+Model compiled successfully in 821 ms.
+
+Input model: models/ssd_mobilenet_v1_int8_300.tflite
+Input size: 6.96MiB
+Output model: models/edgetpu/ssd_mobilenet_v1_int8_300_edgetpu.tflite
+Output size: 7.15MiB
+On-chip memory used for caching model parameters: 6.99MiB
+On-chip memory remaining for caching model parameters: 678.50KiB
+Off-chip memory used for streaming uncached model parameters: 0.00B
+Number of Edge TPU subgraphs: 1
+Total number of operations: 64
+Operation log: models/edgetpu/ssd_mobilenet_v1_int8_300_edgetpu.log
+
+Operator                       Count      Status
+
+QUANTIZE                       3          Mapped to Edge TPU
+CONCATENATION                  2          Mapped to Edge TPU
+CONV_2D                        34         Mapped to Edge TPU
+RESHAPE                        12         Mapped to Edge TPU
+DEPTHWISE_CONV_2D              13         Mapped to Edge TPU
+codigo_de_saida=0

@@ -1,0 +1,12 @@
+# Limites do contêiner ARM64 para cada perfil de dispositivo emulado.
+# O QEMU limita núcleos e memória, mas NÃO reproduz a velocidade do processador real.
+# A variante de memória de cada placa é a decisão em aberto D4 (docs/decisoes.md).
+perfis:
+  rpi4b:
+    hardware_real: Raspberry Pi 4B, 4 núcleos Cortex-A72
+    cpus: 4
+    memoria: 4g
+  rpi5:
+    hardware_real: Raspberry Pi 5, 4 núcleos Cortex-A76
+    cpus: 4
+    memoria: 8g

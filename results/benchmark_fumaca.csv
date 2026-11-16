@@ -1,0 +1,11 @@
+arquivo,modelo,precisao,resolucao,natureza,ok,num_threads,warmup_runs,num_runs,init_us,primeira_inferencia_us,aquecimento_media_us,inferencia_media_us,memoria_delta_init_mb,memoria_delta_total_mb
+efficientdet_lite0_fp32_320.tflite,efficientdet_lite0,fp32,320,teste_de_fumaca_emulado,True,4,1,5,353942,3842327,3.84233e+06,3.77002e+06,40.0234,40.0234
+efficientdet_lite0_int8_320.tflite,efficientdet_lite0,int8,320,teste_de_fumaca_emulado,True,4,1,5,213364,444568,428893,415300,2.40234,2.40234
+ssd_mobilenet_v1_fp32_300.tflite,ssd_mobilenet_v1,fp32,300,teste_de_fumaca_emulado,True,4,1,5,696547,4829690,4.82969e+06,4.42628e+06,45.3281,48.8281
+ssd_mobilenet_v1_int8_300.tflite,ssd_mobilenet_v1,int8,300,teste_de_fumaca_emulado,True,4,1,5,223151,340889,349224,359175,1.30078,2.67578
+yolov8n_fp32_320.tflite,yolov8n,fp32,320,teste_de_fumaca_emulado,True,4,1,5,525327,4214705,4.2147e+06,3.99606e+06,19.7227,24.3477
+yolov8n_fp32_480.tflite,yolov8n,fp32,480,teste_de_fumaca_emulado,True,4,1,5,523659,8918431,8.91843e+06,8.80621e+06,34.5742,44.5742
+yolov8n_fp32_640.tflite,yolov8n,fp32,640,teste_de_fumaca_emulado,True,4,1,5,534498,15666170,1.56662e+07,1.55072e+07,55.25,73.25
+yolov8n_int8_320.tflite,yolov8n,int8,320,teste_de_fumaca_emulado,True,4,1,5,197663,385135,380324,407448,0,1.49609
+yolov8n_int8_480.tflite,yolov8n,int8,480,teste_de_fumaca_emulado,True,4,1,5,196940,975721,975721,892471,9.97656,14.2695
+yolov8n_int8_640.tflite,yolov8n,int8,640,teste_de_fumaca_emulado,True,4,1,5,259567,1702763,1.70276e+06,1.49896e+06,25.25,32.2344

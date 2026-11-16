@@ -1,0 +1,11 @@
+arquivo,modelo,precisao,resolucao,arquitetura,ok,erro,entrada_formato,entrada_tipo,saidas_formato,saidas_tipo,saida_valida,primeira_inferencia_ms_emulado
+efficientdet_lite0_fp32_320.tflite,efficientdet_lite0,fp32,320,aarch64,True,,1x320x320x3,float32,1x19206x90;1x19206x4,float32;float32,True,73104.3
+efficientdet_lite0_int8_320.tflite,efficientdet_lite0,int8,320,aarch64,True,,1x320x320x3,int8,1x19206x90;1x19206x4,int8;int8,True,9410.4
+ssd_mobilenet_v1_fp32_300.tflite,ssd_mobilenet_v1,fp32,300,aarch64,True,,1x300x300x3,float32,1x1917x1x4;1x1917x91,float32;float32,True,91312.5
+ssd_mobilenet_v1_int8_300.tflite,ssd_mobilenet_v1,int8,300,aarch64,True,,1x300x300x3,uint8,1x1917x1x4;1x1917x91,uint8;uint8,True,8306.3
+yolov8n_fp32_320.tflite,yolov8n,fp32,320,aarch64,True,,1x3x320x320,float32,1x84x2100,float32,True,65012.6
+yolov8n_fp32_480.tflite,yolov8n,fp32,480,aarch64,True,,1x3x480x480,float32,1x84x4725,float32,True,141887.4
+yolov8n_fp32_640.tflite,yolov8n,fp32,640,aarch64,True,,1x3x640x640,float32,1x84x8400,float32,True,247408.6
+yolov8n_int8_320.tflite,yolov8n,int8,320,aarch64,True,,1x3x320x320,float32,1x84x2100,float32,True,10217.2
+yolov8n_int8_480.tflite,yolov8n,int8,480,aarch64,True,,1x3x480x480,float32,1x84x4725,float32,True,20490.3
+yolov8n_int8_640.tflite,yolov8n,int8,640,aarch64,True,,1x3x640x640,float32,1x84x8400,float32,True,35986.6

@@ -1,0 +1,9 @@
+# Modelos, dados e resultados brutos grandes ficam fora do git (veja o README para obtê-los).
+models/*
+!models/.gitkeep
+data/*
+!data/.gitkeep
+results/raw/
+__pycache__/
+*.pyc
+.venv/

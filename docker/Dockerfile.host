@@ -1,0 +1,30 @@
+# Imagem de PREPARAÇÃO dos modelos (linux/amd64): download, exportação e quantização.
+# Tem dois ambientes Python separados, porque as dependências não convivem bem:
+#   /opt/venv-export  Ultralytics + litert-torch + ai-edge-quantizer (YOLOv8n e EfficientDet-Lite0)
+#   /opt/venv-tf      TensorFlow (conversão do SSD-MobileNet V1 a partir do grafo congelado)
+# Versões fixadas: são as usadas no teste de 16/11/2026. Ao mudar, registre em docs/ambiente.md.
+ARG BASE=python:3.12-slim
+FROM ${BASE}
+
+RUN pip install --no-cache-dir uv==0.11.32
+
+# torch em versão só-CPU (sem as bibliotecas CUDA, que somam vários GB).
+# (TORCH_OPCAO existe só para permitir construir a imagem onde download.pytorch.org é bloqueado.)
+# opencv "headless" substitui o opencv padrão para não exigir bibliotecas gráficas do sistema.
+ARG TORCH_OPCAO="--torch-backend cpu"
+RUN uv venv /opt/venv-export \
+ && uv pip install --python /opt/venv-export/bin/python ${TORCH_OPCAO} \
+      "ultralytics[export-base,export-litert]==8.4.215" \
+      torch==2.14.1 litert-torch==0.10.0 ai-edge-litert==2.3.0 ai-edge-quantizer==0.10.1 \
+      pillow pyyaml \
+ && uv pip uninstall --python /opt/venv-export/bin/python opencv-python \
+ && uv pip install --python /opt/venv-export/bin/python opencv-python-headless \
+ && uv cache clean
+
+RUN uv venv /opt/venv-tf \
+ && uv pip install --python /opt/venv-tf/bin/python tensorflow==2.21.0 pillow pyyaml \
+ && uv cache clean
+
+# A Ultralytics grava configurações e baixa fontes; mantemos isso dentro do contêiner.
+ENV YOLO_CONFIG_DIR=/tmp/ultralytics PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+WORKDIR /repo

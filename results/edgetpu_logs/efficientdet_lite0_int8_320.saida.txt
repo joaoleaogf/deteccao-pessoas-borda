@@ -1,0 +1,11 @@
+Edge TPU Compiler version 14.1.317412892
+ERROR: :86 NumInputs(node) != 2 (1 != 2)
+ERROR: Node number 259 (ADD) failed to prepare.
+
+ERROR: :86 NumInputs(node) != 2 (1 != 2)
+ERROR: Node number 259 (ADD) failed to prepare.
+
+Compilation failed: Internal error
+
+Internal compiler error. Aborting! 
+codigo_de_saida=1

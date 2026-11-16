@@ -1,0 +1,12 @@
+# Matriz do experimento (ATV 04): 3 modelos x 2 precisões x 3 resoluções x 3 taxas = 54 cenários.
+# Não alterar sem confirmação da equipe. Usado a partir da E5.
+# ATENÇÃO: SSD-MobileNet V1 (300x300) e EfficientDet-Lite0 (320x320) têm entrada fixa.
+# Como a "resolução" se aplica a eles é a decisão em aberto D1 (docs/decisoes.md).
+fatores:
+  modelo: [yolov8n, ssd_mobilenet_v1, efficientdet_lite0]
+  precisao: [fp32, int8]
+  resolucao: [320, 480, 640]
+  fps_fonte: [5, 15, 30]
+amostragem:
+  inferencias_por_cenario: 1050
+  aquecimento_descartado: 50

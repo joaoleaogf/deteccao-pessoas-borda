@@ -1,0 +1,6 @@
+arquivo,operador,quantidade,situacao
+ssd_mobilenet_v1_int8_300.tflite,QUANTIZE,3,Mapped to Edge TPU
+ssd_mobilenet_v1_int8_300.tflite,CONCATENATION,2,Mapped to Edge TPU
+ssd_mobilenet_v1_int8_300.tflite,CONV_2D,34,Mapped to Edge TPU
+ssd_mobilenet_v1_int8_300.tflite,RESHAPE,12,Mapped to Edge TPU
+ssd_mobilenet_v1_int8_300.tflite,DEPTHWISE_CONV_2D,13,Mapped to Edge TPU

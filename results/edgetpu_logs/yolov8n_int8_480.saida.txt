@@ -1,0 +1,4 @@
+Edge TPU Compiler version 14.1.317412892
+Invalid model: models/yolov8n_int8_480.tflite
+Model not quantized
+codigo_de_saida=1

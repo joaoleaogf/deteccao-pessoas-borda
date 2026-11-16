@@ -1,0 +1,36 @@
+# Imagem do Edge TPU Compiler (linux/amd64). O compilador só existe para Linux x86-64
+# baseado em Debian, por isso roda em contêiner mesmo no Windows e no macOS.
+#
+# A instalação de https://coral.ai/docs/edgetpu/compiler/ (repositório apt da Coral em
+# packages.cloud.google.com) deixou de funcionar: em 16/11/2026 o endereço
+# https://packages.cloud.google.com/apt/dists/coral-edgetpu-stable/Release responde 404.
+# Por isso o compilador vem do repositório oficial do Google no GitHub (google-coral/edgetpu,
+# pasta compiler/x86_64), fixado no commit "eel2 release" de 08/07/2020. O binário vem com o
+# carregador e as bibliotecas que ele usa; o sha256 de cada arquivo garante que é sempre o mesmo.
+# A versão do compilador fica registrada em results/ambiente/edgetpu.txt.
+ARG BASE=debian:bookworm-slim
+FROM ${BASE}
+
+ARG CORAL=https://raw.githubusercontent.com/google-coral/edgetpu/3b625cddfe8886f15978221a02cda2e52044b24c/compiler/x86_64/edgetpu_compiler_bin
+ADD --checksum=sha256:5482d4627920e7b0c0c9fb4b1dcaa941bbdb47430fd5a28fbbd13b3bf8415679 ${CORAL}/edgetpu_compiler /opt/edgetpu/
+ADD --checksum=sha256:0d3fc8700afd0fbdfd63af0aba794e5bc4260b679f03e93a6f792e4fe2d522a9 ${CORAL}/ld-linux-x86-64.so.2 /opt/edgetpu/
+ADD --checksum=sha256:457fb2108a42215e0da9990bbbdd0d910ffef8f85bc87f422832b6e2764ddb5f ${CORAL}/libc++.so.1 /opt/edgetpu/
+ADD --checksum=sha256:435713546d48e6aeefa765f983a90393b5b992307c76176774ca31e28fdba282 ${CORAL}/libc++abi.so.1 /opt/edgetpu/
+ADD --checksum=sha256:fd8496fe7ae47c79dbacd411af3c6f63f821201150c9ca99f1e833f7b2d972e9 ${CORAL}/libc.so.6 /opt/edgetpu/
+ADD --checksum=sha256:9ce41c740532940d1c625a3afd8159d44c86721fb7dcc06438be45e1e3560a89 ${CORAL}/libdl.so.2 /opt/edgetpu/
+ADD --checksum=sha256:6bde953e2692494c9aa1aaa01a7d14196c7603d1a8f20ed7a55d4e804f9151a5 ${CORAL}/libm.so.6 /opt/edgetpu/
+ADD --checksum=sha256:67443ab4f157a3acebb514d6a7505ac76f22052004eabb6ea9a3688ccf6f0e8f ${CORAL}/libpthread.so.0 /opt/edgetpu/
+ADD --checksum=sha256:8bf1a5049e7a3ddbde2c2b86983fa239fd4eb096356479dc3c305af76abda05a ${CORAL}/libresolv.so.2 /opt/edgetpu/
+ADD --checksum=sha256:bd0cd2f5be13a5a12a79b19699aa4330b57628cef5eb6fa5bc09a948e05c405d ${CORAL}/librt.so.1 /opt/edgetpu/
+ADD --checksum=sha256:6ab3b11e6ae7d1e50dd84c0264e8c00cec11e6cada8ef2f67f74cee6d1f0ec1d ${CORAL}/LICENSES /opt/edgetpu/
+ADD --checksum=sha256:394555d1a3f46e766a799b0c4c3a2968b48a9fedfd54f047a507d30124502299 ${CORAL}/NOTICE /opt/edgetpu/
+
+# Mesmo lançador do repositório da Coral (compiler/x86_64/edgetpu_compiler): usa o carregador e as
+# bibliotecas que vêm junto, e não as do sistema.
+RUN chmod 755 /opt/edgetpu/edgetpu_compiler /opt/edgetpu/ld-linux-x86-64.so.2 \
+ && printf '#!/bin/sh\nexec /opt/edgetpu/ld-linux-x86-64.so.2 --library-path /opt/edgetpu /opt/edgetpu/edgetpu_compiler "$@"\n' \
+      > /usr/local/bin/edgetpu_compiler \
+ && chmod 755 /usr/local/bin/edgetpu_compiler \
+ && edgetpu_compiler --version
+
+WORKDIR /repo

@@ -1,0 +1,7 @@
+arquitetura (platform.machine): aarch64
+sistema: Linux-6.18.58.1-microsoft-standard-WSL2-aarch64-with-glibc2.41
+python: 3.12.16
+ai-edge-litert: 2.3.0
+numpy: 2.5.5
+pillow: 13.0.0
+psutil: 7.2.2

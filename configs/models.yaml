@@ -1,0 +1,44 @@
+# Origem dos modelos, do conjunto de calibração e da imagem de teste da etapa E4.
+# Cada download é conferido pelo sha256 abaixo; se o arquivo remoto mudar, a etapa para.
+# Hashes calculados em 16/11/2026.
+
+calibracao:
+  # COCO128: as 128 primeiras imagens do COCO train2017, distribuídas pela Ultralytics.
+  # O mesmo conjunto, na mesma ordem (nome do arquivo), calibra os três modelos INT8.
+  url: https://github.com/ultralytics/assets/releases/download/v0.0.0/coco128.zip
+  sha256: 61e5e3028863d8ffc3b81d6a514603954889f0edd5e4b44c4ce60b2da99aeb8e
+  pasta_imagens: coco128/images/train2017
+  n_imagens: 128
+
+imagem_teste:
+  url: https://github.com/ultralytics/assets/releases/download/v0.0.0/bus.jpg
+  sha256: c02019c4979c191eb739ddd944445ef408dad5679acab6fd520ef9d434bfbc63
+  arquivo: bus.jpg
+
+modelos:
+  yolov8n:
+    # Pesos PyTorch pré-treinados no COCO. A resolução é fixada na exportação (imgsz).
+    url: https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.pt
+    sha256: f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36
+    arquivo: yolov8n.pt
+    resolucoes: [320, 480, 640]
+    # ultralytics    = export oficial (quantize=8): corpo da rede em int8, mas entrada, saída e
+    #                  cabeça de detecção continuam em float32 (decisão da própria Ultralytics).
+    # inteiro_total  = quantiza o .tflite FP32 com ai-edge-quantizer, inclusive entrada e saída.
+    # Decisão em aberto D2 (docs/decisoes.md).
+    int8_modo: ultralytics
+
+  ssd_mobilenet_v1:
+    # Grafo congelado do TF1 Detection Model Zoo, treinado no COCO. Entrada fixa em 300x300:
+    # o grafo tem os formatos das âncoras gravados e não converte em outra resolução.
+    url: https://storage.googleapis.com/download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_2018_01_28.tar.gz
+    sha256: 8788f89108519fd1102b8a5c2ac861cf6d86603571b6ce5bbd1c245b7fe005e3
+    arquivo: ssd_mobilenet_v1_coco_2018_01_28.tar.gz
+    resolucoes: [300]
+
+  efficientdet_lite0:
+    # Modelo float32 do MediaPipe, treinado no COCO. Entrada fixa em 320x320.
+    url: https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float32/1/efficientdet_lite0.tflite
+    sha256: 40338edf5ec70d43e318b0a716a84d4564cd1802759a7a07170c7e43796dbf58
+    arquivo: efficientdet_lite0_float32.tflite
+    resolucoes: [320]

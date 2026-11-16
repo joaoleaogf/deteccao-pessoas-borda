@@ -1,0 +1,17 @@
+sistema do contêiner: Debian GNU/Linux 13 (trixie) (x86_64)
+python: Python 3.12.16
+-- ambiente /opt/venv-export
+ai-edge-litert         2.3.0
+ai-edge-quantizer      0.10.1
+litert-torch           0.10.0
+numpy                  2.5.5
+onnx                   1.23.2
+pillow                 13.0.0
+torch                  2.14.1+cpu
+torchvision            0.29.2+cpu
+ultralytics            8.4.215
+-- ambiente /opt/venv-tf
+keras              3.15.1
+numpy              2.5.5
+pillow             13.0.0
+tensorflow         2.21.0

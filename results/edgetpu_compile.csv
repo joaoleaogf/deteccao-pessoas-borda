@@ -1,0 +1,6 @@
+arquivo,modelo,precisao,resolucao,compilou,versao_compilador,tempo_compilacao_ms,tamanho_entrada,tamanho_saida,memoria_no_chip_usada,memoria_no_chip_restante,memoria_fora_do_chip,subgrafos_edgetpu,operacoes_total,operacoes_na_tpu,operacoes_na_cpu,memoria_no_chip_usada_bytes,memoria_no_chip_restante_bytes,memoria_fora_do_chip_bytes,contagem_origem
+efficientdet_lite0_int8_320.tflite,efficientdet_lite0,int8,320,False,14.1.317412892,,,,,,,,,,,,,,
+ssd_mobilenet_v1_int8_300.tflite,ssd_mobilenet_v1,int8,300,True,14.1.317412892,821,6.96MiB,7.15MiB,6.99MiB,678.50KiB,0.00B,1,64,64,0,7329546,694784,0,soma_da_tabela_de_operadores
+yolov8n_int8_320.tflite,yolov8n,int8,320,False,14.1.317412892,,,,,,,,,,,,,,
+yolov8n_int8_480.tflite,yolov8n,int8,480,False,14.1.317412892,,,,,,,,,,,,,,
+yolov8n_int8_640.tflite,yolov8n,int8,640,False,14.1.317412892,,,,,,,,,,,,,,

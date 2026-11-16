@@ -1,0 +1,22 @@
+$ benchmark_model --graph=/repo/models/yolov8n_int8_640.tflite --num_threads=4 --warmup_runs=1 --num_runs=5
+INFO: STARTING!
+INFO: Log parameter values verbosely: [0]
+INFO: Min num runs: [5]
+INFO: Num threads: [4]
+INFO: Min warmup runs: [1]
+INFO: Graph: [/repo/models/yolov8n_int8_640.tflite]
+INFO: Signature to run: []
+INFO: #threads used for CPU inference: [4]
+INFO: Loaded model /repo/models/yolov8n_int8_640.tflite
+INFO: The input model file size (MB): 3.64288
+INFO: Initialized session in 259.567ms.
+INFO: Running benchmark for at least 1 iterations and at least 0.5 seconds but terminate if exceeding 150 seconds.
+INFO: count=1 curr=1702763 p5=1702763 median=1702763 p95=1702763
+
+INFO: Running benchmark for at least 5 iterations and at least 1 seconds but terminate if exceeding 150 seconds.
+INFO: count=5 first=1663400 curr=1453627 min=1426912 max=1663400 avg=1.49896e+06 std=84466 p5=1426912 median=1463611 p95=1663400
+
+INFO: Inference timings in us: Init: 259567, First inference: 1702763, Warmup (avg): 1.70276e+06, Inference (avg): 1.49896e+06
+INFO: Note: as the benchmark tool itself affects memory footprint, the following is only APPROXIMATE to the actual memory footprint of the model at runtime. Take the information at your discretion.
+INFO: Memory footprint delta from the start of the tool (MB): init=25.25 overall=32.2344
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.

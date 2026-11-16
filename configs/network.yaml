@@ -1,0 +1,8 @@
+# Parâmetros do baseline de nuvem (E5). Nada aqui está decidido ainda:
+# protocolo, codec, valores de rede e hardware do servidor são a decisão em aberto D5.
+# Os scripts da E5 devem recusar rodar enquanto houver campo nulo.
+protocolo: null        # RTSP ou WebRTC (ATV 04)
+codec: null
+rtt_ms: null
+banda_subida_kbps: null
+servidor: null

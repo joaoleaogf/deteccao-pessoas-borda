@@ -1,0 +1,11 @@
+Edge TPU Compiler version 14.1.317412892
+Input: models/ssd_mobilenet_v1_int8_300.tflite
+Output: models/edgetpu/ssd_mobilenet_v1_int8_300_edgetpu.tflite
+
+Operator                       Count      Status
+
+QUANTIZE                       3          Mapped to Edge TPU
+CONCATENATION                  2          Mapped to Edge TPU
+CONV_2D                        34         Mapped to Edge TPU
+RESHAPE                        12         Mapped to Edge TPU
+DEPTHWISE_CONV_2D              13         Mapped to Edge TPU

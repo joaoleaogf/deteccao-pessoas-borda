@@ -1,0 +1,8 @@
+data (UTC): 2026-11-16T22:53:26Z
+sistema do host: Microsoft Windows 11 Pro 10.0.26300 (64 bits)
+docker (cliente): 29.4.1
+docker (servidor): 29.4.1, linux/amd64
+docker info: Docker Desktop (containerized), kernel 6.18.58.1-microsoft-standard-WSL2, 12 CPUs, 7982563328 bytes de memória
+perfil do contêiner ARM64: rpi4b (--cpus=4 --memory=4g)
+-- emuladores QEMU registrados (tonistiigi/binfmt --version):
+binfmt/e29e7d7 qemu/v10.2.3 go/1.26.4

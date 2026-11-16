@@ -1,0 +1,17 @@
+# Imagem de MEDIÇÃO (linux/arm64), executada no x86-64 por emulação QEMU.
+# Contém só o necessário para rodar inferência: LiteRT para Python e o binário benchmark_model.
+ARG BASE=python:3.12-slim
+FROM ${BASE}
+
+RUN pip install --no-cache-dir \
+      ai-edge-litert==2.3.0 numpy==2.5.5 pillow==13.0.0 psutil==7.2.2 pyyaml==6.0.3
+
+# benchmark_model: binário nativo pré-compilado para linux_aarch64 (build "nightly" do TensorFlow Lite,
+# publicado em 07/02/2025). O sha256 garante que o binário é sempre o mesmo.
+ADD --chmod=755 \
+    --checksum=sha256:7d6f9b6138ec1db2b39f9a1e99fcf684447d05d6450f5c25cd474032346eb1a6 \
+    https://storage.googleapis.com/tensorflow-nightly-public/prod/tensorflow/release/lite/tools/nightly/latest/linux_aarch64_benchmark_model \
+    /usr/local/bin/benchmark_model
+
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+WORKDIR /repo
