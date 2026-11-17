@@ -1,0 +1,72 @@
+% Rascunho da seção de resultados. Texto final com a equipe.
+% Requer \input{numeros.tex} no preâmbulo e as tabelas de docs/artigo/tabelas/ (geradas por e6).
+% Trechos marcados com [REVISAR APÓS A COLETA] dependem das combinações FP32 da borda.
+\section{Resultados}
+\label{sec:resultados}
+
+Foram medidas \nCombBorda{} combinações na borda e \nCombNuvem{} na nuvem, com \nQuadrosValidos{}
+quadros válidos cada, das quais se derivaram \nCenarios{} cenários de taxa da fonte. Todos os tempos
+de borda foram obtidos em emulação (QEMU) e são usados apenas em comparações relativas.
+
+\subsection{Qualidade da detecção}
+A Tabela~\ref{tab:qualidade} mostra o mAP@50 da classe pessoa. O YOLOv8n teve a melhor qualidade e a
+única que melhora com a resolução (\mapYoloIntTres{}, \mapYoloIntQuatro{} e \mapYoloIntSeis{} em INT8 a
+320, 480 e 640), porque é o único modelo cuja entrada acompanha a resolução da fonte; nos outros dois a
+resolução da fonte quase não altera o resultado, já que o quadro é reduzido para a entrada fixa.
+A quantização INT8 [REVISAR APÓS A COLETA: comparar com o FP32 da borda, por exemplo
+\mapYoloFpSeis{} $\times$ \mapYoloIntSeis{} no YOLOv8n a 640].
+
+\input{tabelas/qualidade}
+
+\subsection{Desempenho na borda (QP1)}
+A Tabela~\ref{tab:latencia_borda} resume a latência fim a fim por quadro. Em INT8, o YOLOv8n levou
+em média \etoeYoloIntTres{}\,s por quadro a 320 e \etoeYoloIntQuatro{}\,s a 480 no ambiente emulado,
+com o processo ocupando cerca de \cpuYoloIntTres\% de CPU (4 threads) e até \rssYoloIntQuatro{}\,MB de
+memória residente. [REVISAR APÓS A COLETA: razão FP32/INT8 por modelo e resolução
+(\razaoYoloTres{}, \razaoSsdTres{}, \razaoEffdetTres{} a 320), resultado dos testes pareados
+(Tabela~\ref{tab:testes_fp32_int8}) e comparação entre modelos.]
+
+Em nenhuma combinação a taxa sustentável no ambiente emulado alcança 5 FPS, de modo que, nos cenários
+derivados, a fila cresce sem limite e a política de descarte processaria só uma fração dos quadros
+(Figura~\ref{fig:descarte}). Esse comportamento é efeito da emulação e não deve ser lido como o
+desempenho de um Raspberry Pi; a comparação útil é a relativa entre modelos, precisões e resoluções.
+
+\input{tabelas/latencia_borda}
+\input{tabelas/testes_fp32_int8}
+
+\subsection{Acelerador Edge TPU}
+Sem o acelerador físico, avaliou-se a compilação (Tabela~\ref{tab:edgetpu}). Só o SSD-MobileNet~V1 INT8
+compilou, com todas as operações mapeadas para a TPU e o modelo inteiro cabendo na memória do chip. O
+YOLOv8n INT8 foi recusado por não ser inteiramente quantizado (entrada e saída em float32) e o
+EfficientDet-Lite0 INT8 falhou em um operador de soma. Na prática, só o SSD-MobileNet~V1 se beneficiaria
+do acelerador sem mudanças no modelo, em linha com o observado na literatura.
+
+\input{tabelas/edgetpu}
+
+\subsection{Borda $\times$ nuvem (QP2)}
+No baseline de nuvem (Tabela~\ref{tab:nuvem}), cada quadro JPEG exige banda de subida que cresce com a
+resolução e a taxa da fonte: a 15 FPS são \bandaTresQuinze{}, \bandaQuatroQuinze{} e
+\bandaSeisQuinze{}\,Mbit/s a 320, 480 e 640, e a 30 FPS o quadro de 640 pixels exigiria
+\bandaSeisTrinta{}\,Mbit/s, acima do enlace de subida emulado (10\,Mbit/s). Na borda nenhum quadro de
+vídeo sai do dispositivo, só o resultado da detecção (Figura~\ref{fig:banda}). Este é o resultado
+principal da QP2. A latência fim a fim da nuvem (\etoeYoloFpTresNuvem{} a \etoeYoloFpSeisNuvem{}\,ms
+no YOLOv8n) inclui a transmissão do quadro, que domina o tempo nas resoluções maiores; ela não é
+comparada em valor absoluto com a borda, porque a borda foi emulada e o servidor executou de forma
+nativa.
+
+\input{tabelas/nuvem}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{../../figures/e6_banda_subida.pdf}
+\caption{Banda de subida necessária para enviar o vídeo à nuvem (JPEG qualidade 80) em função da taxa
+e da resolução da fonte, comparada à borda, que não envia vídeo.}
+\label{fig:banda}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{../../figures/e6_borda_descarte.pdf}
+\caption{Quadros que seriam descartados na borda (cenários derivados, ambiente emulado).}
+\label{fig:descarte}
+\end{figure}
