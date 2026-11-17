@@ -97,6 +97,19 @@ Falta escolher a fonte da literatura e o valor de potência de cada placa.
   como derivados. Motivo: o teste de fumaça indica cerca de 50 h de emulação no desenho original contra
   cerca de 5 h no reduzido, e a taxa da fonte não muda o tempo de inferência de cada quadro. O baseline
   de nuvem usa as mesmas 350 imagens por combinação. Decisão da equipe em 16/11/2026.
+- **D9. Biblioteca Python ~10× mais lenta que o benchmark_model sob QEMU (descoberta de 17/11/2026).**
+  Medido no contêiner ARM64 (4 CPUs), SSD-MobileNet V1, por inferência, ambiente emulado:
+  `benchmark_model` FP32 4,13 s com XNNPACK e 4,63 s sem; Python (`ai-edge-litert` 2.3.0, 4 threads)
+  58,1–58,3 s com XNNPACK, 42,9–49,8 s sem delegado e 93,6–94,9 s com 1 thread; versões 1.4.0
+  (40,4–44,8 s) e 2.0.2 (58,3–66,3 s) dão o mesmo. INT8: 4,6–6,4 s no Python contra 0,36 s no
+  `benchmark_model` (teste de fumaça). Com `QEMU_CPU=cortex-a72` (o processador do Pi 4) o Python cai
+  para 35,1–41,2 s no FP32 e 2,2–2,6 s no INT8. A coleta precisa do Python (pré e pós-processamento e
+  detecções por quadro), então a estimativa de ~5 h (feita com o `benchmark_model`) vira ~55 h.
+  **Adotado:** coleta com `QEMU_CPU=cortex-a72`, registrado no manifesto de cada combinação; os 9 INT8
+  rodam com 350 quadros. **Pendente (decisão da equipe):** como medir os 9 FP32 (350 quadros em ~2,5
+  dias, 100 quadros em ~16 h, ou inferência pelo `benchmark_model`).
+- **Execução paralela.** O baseline de nuvem rodou ao mesmo tempo que a coleta da borda (host com 12
+  CPUs; borda limitada a 4). Fica registrado no manifesto de cada combinação de nuvem.
 - **Métricas de qualidade.** mAP@50 da classe pessoa (pycocotools) e precisão, revocação e F1 com
   limiar de pontuação 0,5 e IoU 0,5, calculados das detecções salvas na própria coleta. NMS igual para
   os três modelos: IoU 0,5, pontuação mínima 0,01, até 100 detecções por quadro.
