@@ -1,0 +1,6 @@
+parte,combinacao,modelo,precisao,resolucao_fonte,map50_pessoa,precisao_050,revocacao_050,f1_050,imagens_avaliadas
+nuvem,ssd_mobilenet_v1_fp32_320,ssd_mobilenet_v1,fp32,320,0.5924,0.9508,0.3923,0.5554,350
+nuvem,ssd_mobilenet_v1_fp32_480,ssd_mobilenet_v1,fp32,480,0.5954,0.9359,0.4232,0.5828,350
+nuvem,yolov8n_fp32_320,yolov8n,fp32,320,0.668,0.9609,0.4271,0.5913,350
+nuvem,yolov8n_fp32_480,yolov8n,fp32,480,0.745,0.9589,0.4957,0.6535,350
+nuvem,yolov8n_fp32_640,yolov8n,fp32,640,0.7611,0.9497,0.5295,0.6799,350

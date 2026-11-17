@@ -1,0 +1,23 @@
+{
+  "combinacao": "ssd_mobilenet_v1_fp32_480",
+  "modelo": "ssd_mobilenet_v1",
+  "precisao": "fp32",
+  "resolucao_fonte": 480,
+  "arquivo_modelo": "ssd_mobilenet_v1_fp32_300.tflite",
+  "quadros": 350,
+  "aquecimento": 50,
+  "rede": {
+    "protocolo": "http-jpeg",
+    "codec": "jpeg",
+    "qualidade_jpeg": 80,
+    "rtt_ms": 40,
+    "banda_subida_kbps": 10000,
+    "servidor": "contêiner linux/amd64 nativo no mesmo host (modelos FP32, 4 threads)"
+  },
+  "tc_cliente": "qdisc netem 8005: root refcnt 13 limit 1000 delay 20ms rate 10Mbit seed 15938646690476653811",
+  "inicio_utc": "2026-11-17T03:18:34+00:00",
+  "fim_utc": "2026-11-17T03:19:10+00:00",
+  "arquitetura": "x86_64",
+  "ambiente": "nativo (x86-64) com rede emulada (tc netem)",
+  "observacao": "executado em paralelo com a coleta da borda (contêiner ARM64 com 4 CPUs); host com 12 CPUs"
+}

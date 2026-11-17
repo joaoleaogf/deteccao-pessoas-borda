@@ -4,6 +4,7 @@
 # O que faz, em ordem (contêiner borda-prep):
 #   1. deriva os cenários de 5, 15 e 30 FPS, calcula mAP@50 e F1 e escreve results/summary.csv
 #   2. faz os testes pareados, as figuras (figures/) e results/RESUMO.md
+#   3. gera as tabelas e as macros LaTeX em docs/artigo/
 # Determinístico: rodar duas vezes dá os mesmos arquivos.
 #
 # Uso: ./e6.sh
@@ -12,8 +13,10 @@ cd "$(dirname "$0")"
 [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]] && { sed -n '2,9p' "$0"; exit 0; }
 M=(-v "$PWD":/repo -w /repo)
 PY=/opt/venv-export/bin/python
-echo "== [1/2] Cenários derivados, qualidade e results/summary.csv"
+echo "== [1/3] Cenários derivados, qualidade e results/summary.csv"
 docker run --rm --platform linux/amd64 "${M[@]}" borda-prep $PY src/analysis/derivar_cenarios.py
-echo "== [2/2] Testes, figuras e results/RESUMO.md"
+echo "== [2/3] Testes, figuras e results/RESUMO.md"
 docker run --rm --platform linux/amd64 "${M[@]}" borda-prep $PY src/analysis/estatistica.py
+echo "== [3/3] Tabelas e macros LaTeX para o artigo (docs/artigo/)"
+docker run --rm --platform linux/amd64 "${M[@]}" borda-prep $PY src/analysis/artigo_tex.py
 echo "E6 concluída. Veja results/RESUMO.md, results/stats/ e figures/."
