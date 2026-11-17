@@ -1,22 +1,23 @@
-% Gerado por src/analysis/artigo_tex.py. Não edite à mão.
-\begin{table*}[htbp]
+% Gerado por src/analysis/artigo_tex.py a partir de results/. Não edite à mão.
+\begin{table*}[t]
 \centering
 \footnotesize
-\caption{Testes pareados da latência fim a fim FP32 $\times$ INT8 na borda (Shapiro-Wilk nas diferenças; $\alpha = 0{,}05$).}
+\caption{Testes pareados da latência fim a fim FP32 $\times$ INT8 na borda ($\alpha = 0{,}05$).}
 \label{tab:testes_fp32_int8}
-\begin{tabular}{llrrlr}
-\hline
-Modelo & Res. & Pares & Shapiro $p$ & Teste & $p$ \\
-\hline
-YOLOv8n & 320 & 300 & 0,000 & Wilcoxon pareado & < 0,001 \\
-YOLOv8n & 480 & 300 & 0,000 & Wilcoxon pareado & < 0,001 \\
-YOLOv8n & 640 & 300 & 0,000 & Wilcoxon pareado & < 0,001 \\
-SSD-MobileNet V1 & 320 & 300 & 0,000 & Wilcoxon pareado & < 0,001 \\
-SSD-MobileNet V1 & 480 & 300 & 0,000 & Wilcoxon pareado & < 0,001 \\
-SSD-MobileNet V1 & 640 & 300 & 0,000 & Wilcoxon pareado & < 0,001 \\
-EfficientDet-Lite0 & 320 & 300 & 0,000 & Wilcoxon pareado & < 0,001 \\
-EfficientDet-Lite0 & 480 & 300 & 0,000 & Wilcoxon pareado & < 0,001 \\
-EfficientDet-Lite0 & 640 & 300 & 0,000 & Wilcoxon pareado & < 0,001 \\
-\hline
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llrrlr@{}}
+\toprule
+Modelo & {Res. (px)} & Pares & {Shapiro $p$} & Teste & {$p$} \\
+\midrule
+YOLOv8n & 320 & 300 & 0,000 & Wilcoxon pareado & {$<0{,}001$} \\
+YOLOv8n & 480 & 300 & 0,000 & Wilcoxon pareado & {$<0{,}001$} \\
+YOLOv8n & 640 & 300 & 0,000 & Wilcoxon pareado & {$<0{,}001$} \\
+SSD-MobileNet V1 & 320 & 300 & 0,000 & Wilcoxon pareado & {$<0{,}001$} \\
+SSD-MobileNet V1 & 480 & 300 & 0,000 & Wilcoxon pareado & {$<0{,}001$} \\
+SSD-MobileNet V1 & 640 & 300 & 0,000 & Wilcoxon pareado & {$<0{,}001$} \\
+EfficientDet-Lite0 & 320 & 300 & 0,000 & Wilcoxon pareado & {$<0{,}001$} \\
+EfficientDet-Lite0 & 480 & 300 & 0,000 & Wilcoxon pareado & {$<0{,}001$} \\
+EfficientDet-Lite0 & 640 & 300 & 0,000 & Wilcoxon pareado & {$<0{,}001$} \\
+\bottomrule
 \end{tabular}
 \end{table*}

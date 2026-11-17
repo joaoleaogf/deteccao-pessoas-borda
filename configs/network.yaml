@@ -1,9 +1,15 @@
-# Parâmetros do baseline de nuvem (E5), decisão D5 adotada em 16/11/2026 (a equipe pode rever).
-# ATENÇÃO: rtt_ms e banda_subida_kbps são VALORES ASSUMIDOS. A equipe precisa justificá-los com
-# uma fonte (relatório de banda larga residencial, por exemplo) antes de usar no artigo.
+# Parâmetros do baseline de nuvem (E5), decisão D5 (atualizada em 17/11/2026; a equipe pode rever).
+# São PARÂMETROS DE CENÁRIO declarados, não valores típicos medidos:
+#   rtt_ms: 40 fica dentro da faixa medida por Corneo et al. (WWW '21, doi 10.1145/3442381.3449854):
+#           no menor RTT por país até a nuvem, 49 países ficam entre 20 e 40 ms e 53 entre 40 e 100 ms;
+#           sondas da América do Sul alcançam a nuvem em até ~90 ms (sem as caudas longas).
+#   banda_subida_kbps: 10000 é um limite de cenário sem fonte específica. Referência: medianas da
+#           Ookla Speedtest Global Index para o Brasil (setembro de 2026): 137,96 Mbit/s de subida na
+#           banda larga fixa e 17,66 Mbit/s na rede móvel. A banda DEMANDADA pela nuvem (bytes x fps)
+#           independe deste limite; ele só serve para verificar se a demanda cabe no enlace.
 protocolo: http-jpeg   # quadro a quadro, JPEG sobre TCP/HTTP (simplificação de RTSP/WebRTC: mantém o pareamento por quadro)
 codec: jpeg
 qualidade_jpeg: 80
-rtt_ms: 40             # assumido; aplicado com tc netem, metade em cada sentido
-banda_subida_kbps: 10000   # assumido; limite só no sentido cliente -> servidor
+rtt_ms: 40             # aplicado com tc netem, metade em cada sentido
+banda_subida_kbps: 10000   # limite só no sentido cliente -> servidor
 servidor: contêiner linux/amd64 nativo no mesmo host (modelos FP32, 4 threads)

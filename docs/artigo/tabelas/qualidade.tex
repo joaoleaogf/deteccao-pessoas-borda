@@ -1,41 +1,29 @@
-% Gerado por src/analysis/artigo_tex.py. Não edite à mão.
-\begin{table}[htbp]
+% Gerado por src/analysis/artigo_tex.py a partir de results/. Não edite à mão.
+\begin{table}[t]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\caption{Qualidade da detecção de pessoas (mAP@50 e F1 com limiar 0,5) nas 350 imagens do COCO val2017.}
+\footnotesize
+\caption{Qualidade da detecção de pessoas nas 350 imagens do COCO val2017 (mAP@50 e F1 com limiar de pontuação 0,5).}
 \label{tab:qualidade}
-\begin{tabular}{llllrr}
-\hline
-Parte & Modelo & Precisão & Resolução & mAP@50 & F1 \\
-\hline
-borda & YOLOv8n & FP32 & 320 & 0,679 & 0,602 \\
-borda & YOLOv8n & FP32 & 480 & 0,750 & 0,668 \\
-borda & YOLOv8n & FP32 & 640 & 0,770 & 0,690 \\
-borda & YOLOv8n & INT8 & 320 & 0,676 & 0,599 \\
-borda & YOLOv8n & INT8 & 480 & 0,744 & 0,645 \\
-borda & YOLOv8n & INT8 & 640 & 0,760 & 0,671 \\
-borda & SSD-MobileNet V1 & FP32 & 320 & 0,603 & 0,595 \\
-borda & SSD-MobileNet V1 & FP32 & 480 & 0,603 & 0,601 \\
-borda & SSD-MobileNet V1 & FP32 & 640 & 0,602 & 0,603 \\
-borda & SSD-MobileNet V1 & INT8 & 320 & 0,605 & 0,603 \\
-borda & SSD-MobileNet V1 & INT8 & 480 & 0,605 & 0,611 \\
-borda & SSD-MobileNet V1 & INT8 & 640 & 0,610 & 0,611 \\
-borda & EfficientDet-Lite0 & FP32 & 320 & 0,514 & 0,519 \\
-borda & EfficientDet-Lite0 & FP32 & 480 & 0,512 & 0,517 \\
-borda & EfficientDet-Lite0 & FP32 & 640 & 0,507 & 0,516 \\
-borda & EfficientDet-Lite0 & INT8 & 320 & 0,472 & 0,502 \\
-borda & EfficientDet-Lite0 & INT8 & 480 & 0,468 & 0,495 \\
-borda & EfficientDet-Lite0 & INT8 & 640 & 0,469 & 0,492 \\
-nuvem & YOLOv8n & FP32 & 320 & 0,668 & 0,591 \\
-nuvem & YOLOv8n & FP32 & 480 & 0,745 & 0,653 \\
-nuvem & YOLOv8n & FP32 & 640 & 0,761 & 0,680 \\
-nuvem & SSD-MobileNet V1 & FP32 & 320 & 0,592 & 0,555 \\
-nuvem & SSD-MobileNet V1 & FP32 & 480 & 0,595 & 0,583 \\
-nuvem & SSD-MobileNet V1 & FP32 & 640 & 0,600 & 0,583 \\
-nuvem & EfficientDet-Lite0 & FP32 & 320 & 0,506 & 0,511 \\
-nuvem & EfficientDet-Lite0 & FP32 & 480 & 0,512 & 0,521 \\
-nuvem & EfficientDet-Lite0 & FP32 & 640 & 0,498 & 0,507 \\
-\hline
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}l*{5}{r}@{}}
+\toprule
+& \multicolumn{3}{c}{mAP@50} & \multicolumn{2}{c}{F1} \\ \cmidrule(lr){2-4} \cmidrule(l){5-6}
+{Res. (px)} & {FP32} & {INT8} & {Nuvem} & {FP32} & {INT8} \\
+\midrule
+\multicolumn{6}{@{}l}{\textit{YOLOv8n}} \\
+320 & 0,679 & 0,676 & 0,668 & 0,602 & 0,599 \\
+480 & 0,750 & 0,744 & 0,745 & 0,668 & 0,645 \\
+640 & 0,770 & 0,760 & 0,761 & 0,690 & 0,671 \\
+\multicolumn{6}{@{}l}{\textit{SSD-MobileNet V1}} \\
+320 & 0,603 & 0,605 & 0,592 & 0,595 & 0,603 \\
+480 & 0,603 & 0,605 & 0,595 & 0,601 & 0,611 \\
+640 & 0,602 & 0,610 & 0,600 & 0,603 & 0,611 \\
+\multicolumn{6}{@{}l}{\textit{EfficientDet-Lite0}} \\
+320 & 0,514 & 0,472 & 0,506 & 0,519 & 0,502 \\
+480 & 0,512 & 0,468 & 0,512 & 0,517 & 0,495 \\
+640 & 0,507 & 0,469 & 0,498 & 0,516 & 0,492 \\
+\bottomrule
 \end{tabular}
+\par\smallskip
+\parbox{0.96\linewidth}{\scriptsize FP32 e INT8 medidos na borda; ``Nuvem'' é o FP32 no servidor, que recebe o quadro em JPEG (qualidade 80).}
 \end{table}

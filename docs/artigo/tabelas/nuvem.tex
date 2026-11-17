@@ -1,23 +1,26 @@
-% Gerado por src/analysis/artigo_tex.py. Não edite à mão.
-\begin{table*}[htbp]
+% Gerado por src/analysis/artigo_tex.py a partir de results/. Não edite à mão.
+\begin{table*}[t]
 \centering
 \footnotesize
-\caption{Baseline de nuvem: latência média por quadro (ms), tamanho do quadro JPEG (kB) e banda de subida (Mbit/s) por taxa da fonte.}
+\caption{Baseline de nuvem: latência média por quadro, tamanho do quadro JPEG e banda de subida demandada por taxa da câmera.}
 \label{tab:nuvem}
-\begin{tabular}{llrrrrrrr}
-\hline
-Modelo & Res. & e2e & Transm. & Infer. & kB/quadro & 5 FPS & 15 FPS & 30 FPS \\
-\hline
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llrrrr*{3}{r}@{}}
+\toprule
+& & \multicolumn{3}{c}{Latência média (ms)} & & \multicolumn{3}{c}{Banda de subida (Mbit/s)} \\ \cmidrule(lr){3-5} \cmidrule(l){7-9}
+Modelo & {Res. (px)} & {fim a fim} & {transm.} & {infer.} & {kB/quadro} & {5 FPS} & {15 FPS} & {30 FPS} \\
+\midrule
 YOLOv8n & 320 & 77 & 38 & 16 & 20,7 & 0,8 & 2,5 & 5,0 \\
-YOLOv8n & 480 & 111 & 57 & 27 & 43,6 & 1,7 & 5,2 & 10,5 \\
-YOLOv8n & 640 & 165 & 82 & 52 & 73,9 & 3,0 & 8,9 & 17,7 \\
+ & 480 & 111 & 57 & 27 & 43,6 & 1,7 & 5,2 & 10,5 \\
+ & 640 & 165 & 82 & 52 & 73,9 & 3,0 & 8,9 & 17,7 \\
 SSD-MobileNet V1 & 320 & 87 & 38 & 19 & 20,7 & 0,8 & 2,5 & 5,0 \\
-SSD-MobileNet V1 & 480 & 102 & 57 & 13 & 43,6 & 1,7 & 5,2 & 10,5 \\
-SSD-MobileNet V1 & 640 & 136 & 83 & 17 & 73,9 & 3,0 & 8,9 & 17,7 \\
+ & 480 & 102 & 57 & 13 & 43,6 & 1,7 & 5,2 & 10,5 \\
+ & 640 & 136 & 83 & 17 & 73,9 & 3,0 & 8,9 & 17,7 \\
 EfficientDet-Lite0 & 320 & 91 & 38 & 25 & 20,7 & 0,8 & 2,5 & 5,0 \\
-EfficientDet-Lite0 & 480 & 106 & 57 & 17 & 43,6 & 1,7 & 5,2 & 10,5 \\
-EfficientDet-Lite0 & 640 & 137 & 82 & 19 & 73,9 & 3,0 & 8,9 & 17,7 \\
-\hline
+ & 480 & 106 & 57 & 17 & 43,6 & 1,7 & 5,2 & 10,5 \\
+ & 640 & 137 & 82 & 19 & 73,9 & 3,0 & 8,9 & 17,7 \\
+\bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.95\linewidth}{\scriptsize Rede emulada com tc netem (RTT 40 ms, subida 10 Mbit/s, valores assumidos); servidor x86-64 nativo. Na borda nenhum quadro de vídeo é enviado.}
+\par\smallskip
+\parbox{0.96\linewidth}{\scriptsize Servidor x86-64 nativo, modelos FP32; enlace emulado com tc netem (RTT 40 ms, subida 10 Mbit/s). A banda demandada independe do enlace. Na borda nenhum quadro de vídeo é enviado.}
 \end{table*}

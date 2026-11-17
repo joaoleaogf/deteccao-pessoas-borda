@@ -1,0 +1,21 @@
+% Gerado por src/analysis/artigo_tex.py a partir de results/. Não edite à mão.
+\begin{tikzpicture}
+\begin{groupplot}[dados, group style={group size=3 by 1, horizontal sep=4pt, y descriptions at=edge left},
+  width=0.385\columnwidth, height=4.4cm, ybar=0.6pt, /pgf/bar width=5.5pt, clip=false, ymin=0, ymax=0.85,
+  symbolic x coords={320,480,640}, xtick=data, enlarge x limits=0.25,
+  ylabel={mAP@50 (pessoa)}, xlabel={resolução (px)},
+  y tick label style={/pgf/number format/.cd, fixed, precision=1, use comma, 1000 sep={}}]
+\nextgroupplot[title={YOLOv8n}, title style={align=center}, legend to name=legmap]
+\addplot[draw=cYolo, fill=white, postaction={pattern=north east lines, pattern color=cYolo}] coordinates {(320,0.6791) (480,0.7504) (640,0.7701)};
+\addlegendentry{FP32}
+\addplot[draw=cYolo!70!black, fill=cYolo] coordinates {(320,0.6760) (480,0.7438) (640,0.7605)};
+\addlegendentry{INT8}
+\nextgroupplot[title={SSD-\\MobileNet V1}, title style={align=center}]
+\addplot[draw=cSsd, fill=white, postaction={pattern=north east lines, pattern color=cSsd}] coordinates {(320,0.6033) (480,0.6026) (640,0.6022)};
+\addplot[draw=cSsd!70!black, fill=cSsd] coordinates {(320,0.6048) (480,0.6054) (640,0.6103)};
+\nextgroupplot[title={EfficientDet-\\Lite0}, title style={align=center}]
+\addplot[draw=cEff, fill=white, postaction={pattern=north east lines, pattern color=cEff}] coordinates {(320,0.5142) (480,0.5121) (640,0.5074)};
+\addplot[draw=cEff!70!black, fill=cEff] coordinates {(320,0.4724) (480,0.4679) (640,0.4695)};
+\end{groupplot}
+\node[anchor=south] at ($(group c2r1.north)+(0,24pt)$) {\pgfplotslegendfromname{legmap}};
+\end{tikzpicture}

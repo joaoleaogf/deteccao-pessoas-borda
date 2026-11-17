@@ -1,23 +1,26 @@
-% Gerado por src/analysis/artigo_tex.py. Não edite à mão.
-\begin{table*}[htbp]
+% Gerado por src/analysis/artigo_tex.py a partir de results/. Não edite à mão.
+\begin{table*}[t]
 \centering
 \footnotesize
-\caption{Latência fim a fim por quadro na borda (ms; média e IC 95\%), ARM64 nativo (VM Oracle A1, Neoverse-N1, 2 núcleos).}
+\caption{Latência fim a fim por quadro na borda (ARM64 nativo, Neoverse-N1, 2 núcleos).}
 \label{tab:latencia_borda}
-\begin{tabular}{llccrl}
-\hline
-Modelo & Resolução & FP32 & INT8 & FP32/INT8 & Teste, $p$ \\
-\hline
-YOLOv8n & 320 & 34,7 [34,6; 34,8] & 11,2 [11,1; 11,2] & 3,1 & W, < 0,001 \\
-YOLOv8n & 480 & 77,0 [76,9; 77,2] & 24,9 [24,8; 25,0] & 3,1 & W, < 0,001 \\
-YOLOv8n & 640 & 136,5 [136,3; 136,7] & 42,8 [42,7; 42,9] & 3,2 & W, < 0,001 \\
-SSD-MobileNet V1 & 320 & 40,4 [40,3; 40,4] & 17,2 [17,1; 17,2] & 2,3 & W, < 0,001 \\
-SSD-MobileNet V1 & 480 & 41,1 [41,0; 41,2] & 17,8 [17,8; 17,9] & 2,3 & W, < 0,001 \\
-SSD-MobileNet V1 & 640 & 42,1 [42,0; 42,2] & 19,0 [18,9; 19,0] & 2,2 & W, < 0,001 \\
-EfficientDet-Lite0 & 320 & 37,7 [37,5; 37,9] & 22,5 [22,4; 22,6] & 1,7 & W, < 0,001 \\
-EfficientDet-Lite0 & 480 & 39,9 [39,8; 40,1] & 24,9 [24,8; 25,1] & 1,6 & W, < 0,001 \\
-EfficientDet-Lite0 & 640 & 40,7 [40,6; 40,8] & 25,6 [25,5; 25,7] & 1,6 & W, < 0,001 \\
-\hline
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}ll*{4}{r}rr@{}}
+\toprule
+& & \multicolumn{2}{c}{FP32 (ms)} & \multicolumn{2}{c}{INT8 (ms)} & & \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6}
+Modelo & {Res. (px)} & {média} & {p95} & {média} & {p95} & {FP32/INT8} & {$p$} \\
+\midrule
+YOLOv8n & 320 & 34,7 & 35,5 & 11,2 & 11,8 & 3,1 & {$<0{,}001$} \\
+ & 480 & 77,0 & 79,1 & 24,9 & 26,2 & 3,1 & {$<0{,}001$} \\
+ & 640 & 136,5 & 139,6 & 42,8 & 44,3 & 3,2 & {$<0{,}001$} \\
+SSD-MobileNet V1 & 320 & 40,4 & 41,1 & 17,2 & 17,6 & 2,3 & {$<0{,}001$} \\
+ & 480 & 41,1 & 42,5 & 17,8 & 18,3 & 2,3 & {$<0{,}001$} \\
+ & 640 & 42,1 & 43,2 & 19,0 & 19,7 & 2,2 & {$<0{,}001$} \\
+EfficientDet-Lite0 & 320 & 37,7 & 39,9 & 22,5 & 23,6 & 1,7 & {$<0{,}001$} \\
+ & 480 & 39,9 & 42,3 & 24,9 & 26,0 & 1,6 & {$<0{,}001$} \\
+ & 640 & 40,7 & 42,3 & 25,6 & 26,6 & 1,6 & {$<0{,}001$} \\
+\bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.95\linewidth}{\scriptsize Servidor ARM com 2 núcleos: os tempos servem para comparação relativa, não representam um Raspberry Pi. 300 quadros válidos por combinação. Teste pareado FP32 $\times$ INT8 escolhido pelo Shapiro-Wilk nas diferenças: W = Wilcoxon, t = $t$ pareado ($\alpha = 0{,}05$).}
+\par\smallskip
+\parbox{0.96\linewidth}{\scriptsize 300 quadros válidos por combinação. $p$: teste de Wilcoxon pareado FP32 $\times$ INT8 (o Shapiro-Wilk rejeitou a normalidade das diferenças em todos os pares; $\alpha = 0{,}05$). Servidor ARM de 2 núcleos: os tempos servem para comparação relativa e não representam um Raspberry Pi.}
 \end{table*}

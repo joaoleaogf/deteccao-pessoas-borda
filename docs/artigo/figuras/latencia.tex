@@ -1,0 +1,29 @@
+% Gerado por src/analysis/artigo_tex.py a partir de results/. Não edite à mão.
+\begin{tikzpicture}
+\begin{groupplot}[dados, group style={group size=3 by 1, horizontal sep=4pt, y descriptions at=edge left},
+  width=0.385\columnwidth, height=4.4cm, ybar=0.6pt, /pgf/bar width=5.5pt, clip=false, ymin=0, ymax=160,
+  symbolic x coords={320,480,640}, xtick=data, enlarge x limits=0.25,
+  ylabel={latência fim a fim (ms)}, xlabel={resolução (px)},
+  y tick label style={/pgf/number format/.cd, fixed, precision=0, use comma, 1000 sep={}}]
+\nextgroupplot[title={YOLOv8n}, title style={align=center}, legend to name=leglatencia]
+\addplot[draw=cYolo, fill=white, postaction={pattern=north east lines, pattern color=cYolo}, error bars/.cd, y dir=plus, y explicit, error bar style={black, line width=0.4pt}] coordinates {(320,34.5640) +- (0,0.9030) (480,76.8410) +- (0,2.2170) (640,136.2630) +- (0,3.3360)};
+\addlegendentry{FP32}
+\addplot[draw=cYolo!70!black, fill=cYolo, error bars/.cd, y dir=plus, y explicit, error bar style={black, line width=0.4pt}] coordinates {(320,11.0630) +- (0,0.7750) (480,25.0320) +- (0,1.1710) (640,42.8760) +- (0,1.4230)};
+\addlegendentry{INT8}
+\draw[densely dashed, gray!70!black, shorten <=-9pt, shorten >=-9pt] (axis cs:320,33.33) -- (axis cs:640,33.33);
+\draw[densely dashed, gray!70!black, shorten <=-9pt, shorten >=-9pt] (axis cs:320,66.67) -- (axis cs:640,66.67);
+\nextgroupplot[title={SSD-\\MobileNet V1}, title style={align=center}]
+\addplot[draw=cSsd, fill=white, postaction={pattern=north east lines, pattern color=cSsd}, error bars/.cd, y dir=plus, y explicit, error bar style={black, line width=0.4pt}] coordinates {(320,40.3510) +- (0,0.7010) (480,41.0210) +- (0,1.5200) (640,41.9880) +- (0,1.2040)};
+\addplot[draw=cSsd!70!black, fill=cSsd, error bars/.cd, y dir=plus, y explicit, error bar style={black, line width=0.4pt}] coordinates {(320,17.2110) +- (0,0.3860) (480,17.8000) +- (0,0.4610) (640,18.9630) +- (0,0.7610)};
+\draw[densely dashed, gray!70!black, shorten <=-9pt, shorten >=-9pt] (axis cs:320,33.33) -- (axis cs:640,33.33);
+\draw[densely dashed, gray!70!black, shorten <=-9pt, shorten >=-9pt] (axis cs:320,66.67) -- (axis cs:640,66.67);
+\nextgroupplot[title={EfficientDet-\\Lite0}, title style={align=center}]
+\addplot[draw=cEff, fill=white, postaction={pattern=north east lines, pattern color=cEff}, error bars/.cd, y dir=plus, y explicit, error bar style={black, line width=0.4pt}] coordinates {(320,37.7250) +- (0,2.1730) (480,39.9450) +- (0,2.3530) (640,40.8850) +- (0,1.3720)};
+\addplot[draw=cEff!70!black, fill=cEff, error bars/.cd, y dir=plus, y explicit, error bar style={black, line width=0.4pt}] coordinates {(320,22.6570) +- (0,0.8960) (480,25.1690) +- (0,0.8210) (640,25.7960) +- (0,0.8160)};
+\draw[densely dashed, gray!70!black, shorten <=-9pt, shorten >=-9pt] (axis cs:320,33.33) -- (axis cs:640,33.33);
+\node[font=\scriptsize, anchor=west, inner sep=1pt, xshift=9pt] at (axis cs:640,33.33) {30 FPS};
+\draw[densely dashed, gray!70!black, shorten <=-9pt, shorten >=-9pt] (axis cs:320,66.67) -- (axis cs:640,66.67);
+\node[font=\scriptsize, anchor=west, inner sep=1pt, xshift=9pt] at (axis cs:640,66.67) {15 FPS};
+\end{groupplot}
+\node[anchor=south] at ($(group c2r1.north)+(0,24pt)$) {\pgfplotslegendfromname{leglatencia}};
+\end{tikzpicture}

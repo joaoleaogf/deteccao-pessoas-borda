@@ -1,0 +1,27 @@
+% Gerado por src/analysis/artigo_tex.py a partir de results/. Não edite à mão.
+\begin{tikzpicture}
+\begin{axis}[dados, width=\columnwidth, height=5.4cm, xmin=0, xmax=150, ymin=0.40, ymax=0.82,
+  xlabel={latência fim a fim mediana na borda (ms)}, ylabel={mAP@50 (pessoa)},
+  y tick label style={/pgf/number format/.cd, fixed, precision=2, use comma},
+  legend style={at={(0.98,0.03)}, anchor=south east, legend columns=2, font=\scriptsize, fill=white, fill opacity=0.9,
+    text opacity=1, /tikz/every even column/.append style={column sep=4pt}}]
+\addplot[cYolo, thick, mark=*, mark options={fill=cYolo}] coordinates {(11.06,0.6760) (25.03,0.7438) (42.88,0.7605)};
+\addlegendentry{YOLOv8n INT8}
+\node[font=\scriptsize, anchor=north west, inner sep=1.5pt] at (axis cs:11.06,0.6760) {320};
+\node[font=\scriptsize, anchor=north west, inner sep=1.5pt] at (axis cs:25.03,0.7438) {480};
+\node[font=\scriptsize, anchor=north west, inner sep=1.5pt] at (axis cs:42.88,0.7605) {640};
+\addplot[cYolo, thick, densely dashed, mark=*, mark options={solid, fill=white}] coordinates {(34.56,0.6791) (76.84,0.7504) (136.26,0.7701)};
+\addlegendentry{YOLOv8n FP32}
+\node[font=\scriptsize, anchor=south east, inner sep=1.5pt] at (axis cs:34.56,0.6791) {320};
+\node[font=\scriptsize, anchor=south east, inner sep=1.5pt] at (axis cs:76.84,0.7504) {480};
+\node[font=\scriptsize, anchor=south east, inner sep=1.5pt] at (axis cs:136.26,0.7701) {640};
+\addplot[cSsd, thick, mark=square*, mark options={fill=cSsd}] coordinates {(17.21,0.6048) (17.80,0.6054) (18.96,0.6103)};
+\addlegendentry{SSD INT8}
+\addplot[cSsd, thick, densely dashed, mark=square*, mark options={solid, fill=white}] coordinates {(40.35,0.6033) (41.02,0.6026) (41.99,0.6022)};
+\addlegendentry{SSD FP32}
+\addplot[cEff, thick, mark=triangle*, mark options={fill=cEff}] coordinates {(22.66,0.4724) (25.17,0.4679) (25.80,0.4695)};
+\addlegendentry{EfficientDet INT8}
+\addplot[cEff, thick, densely dashed, mark=triangle*, mark options={solid, fill=white}] coordinates {(37.73,0.5142) (39.95,0.5121) (40.88,0.5074)};
+\addlegendentry{EfficientDet FP32}
+\end{axis}
+\end{tikzpicture}

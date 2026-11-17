@@ -1,8 +1,0 @@
-\section{Conclusões}
-\label{conclusoes}
-
-Este trabalho mediu, com o mesmo conjunto de quadros e sob as mesmas condições, o desempenho e a qualidade de três detectores leves de pessoas em ARM64 nativo e o custo de rede de levar o mesmo vídeo à nuvem. Quanto à QP1, a quantização INT8 reduziu a latência fim a fim em todas as \nCombBorda{} combinações, de \razaoEffdetTres{} a \razaoYoloTres{} vezes conforme o modelo, com perda de qualidade de no máximo cerca de quatro centésimos no mAP@50; em INT8, quase todas as combinações sustentaram 30 FPS no processador usado, e o YOLOv8n ofereceu a maior qualidade. Quanto à QP2, processar na borda evita uma banda de subida que, a 15 FPS, vai de \bandaTresQuinze{} a \bandaSeisQuinze{}\,Mbit/s conforme a resolução, e que a 30 FPS e 640 pixels passa do enlace residencial assumido.
-
-A principal contribuição é um experimento reproduzível, com código, versões, conjunto de teste e dados brutos publicados, que compara modelos, precisões, resoluções e o custo de rede no mesmo fluxo de quadros, ponto que a revisão da equipe apontou como lacuna. O método também mostrou um cuidado prático: sob emulação QEMU, a biblioteca Python de inferência ficou cerca de dez vezes mais lenta que a ferramenta nativa, o que torna a emulação inadequada para medir tempo.
-
-Como trabalhos futuros, ficam: repetir a coleta em um Raspberry Pi~4 e~5 físicos, com 4 núcleos, para obter tempos absolutos; medir a energia com sensor de potência; executar os modelos no Edge TPU físico e testar uma versão do YOLOv8n inteiramente quantizada; usar RTSP ou WebRTC e valores de rede com fonte no baseline de nuvem; e avaliar gravações residenciais reais, em condições de pouca luz e com várias pessoas.

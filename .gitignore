@@ -9,3 +9,7 @@ __pycache__/
 .venv/
 # Artigo montado no template (o template não é redistribuído; veja src/analysis/montar_overleaf.py)
 build/
+
+# Texto do artigo da equipe: fica só no PC e no Overleaf (não é publicado no repositório)
+docs/artigo/equipe/
+docs/artigo/revisao-secoes-1-2.md

@@ -1,0 +1,17 @@
+% Gerado por src/analysis/artigo_tex.py a partir de results/. Não edite à mão.
+\begin{tikzpicture}
+\begin{axis}[dados, width=\columnwidth, height=5cm, xmin=3, xmax=44, ymin=0, ymax=20,
+  xtick={5,15,30}, xlabel={taxa da câmera (FPS)}, ylabel={banda de subida (Mbit/s)}, clip=false,
+  y tick label style={/pgf/number format/.cd, fixed, use comma}]
+\addplot[black, thick, densely dotted, mark=triangle*] coordinates {(5,0.83) (15,2.49) (30,4.98)};
+\node[font=\scriptsize, anchor=south west, inner sep=1.5pt] at (axis cs:30,4.98) {nuvem, 320 px};
+\addplot[black, thick, densely dashed, mark=square*] coordinates {(5,1.74) (15,5.23) (30,10.46)};
+\node[font=\scriptsize, anchor=south west, inner sep=1.5pt] at (axis cs:30,10.46) {nuvem, 480 px};
+\addplot[black, thick, solid, mark=*] coordinates {(5,2.95) (15,8.86) (30,17.73)};
+\node[font=\scriptsize, anchor=south west, inner sep=1.5pt] at (axis cs:30,17.73) {nuvem, 640 px};
+\draw[densely dashed, gray!70!black] (axis cs:3,10) -- (axis cs:44,10);
+\node[font=\scriptsize, anchor=south west, inner sep=1pt] at (axis cs:3.3,10) {enlace emulado: 10 Mbit/s};
+\draw[cYolo, line width=1.4pt] (axis cs:3,0) -- (axis cs:44,0);
+\node[font=\scriptsize, anchor=south east, inner sep=1.5pt, text=cYolo!70!black] at (axis cs:44,0) {borda: nenhum vídeo enviado};
+\end{axis}
+\end{tikzpicture}

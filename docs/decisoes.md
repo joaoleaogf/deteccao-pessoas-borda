@@ -82,8 +82,13 @@ Falta escolher a fonte da literatura e o valor de potência de cada placa.
 - **D5.** Baseline de nuvem com dois contêineres numa rede Docker. O cliente só codifica e envia: JPEG
   qualidade 80 por quadro, sobre TCP/HTTP, quadro a quadro (simplificação declarada em relação a
   RTSP/WebRTC, para manter o pareamento por quadro). Enlace com `tc netem`: RTT 40 ms (20 ms em cada
-  sentido) e subida de 10 Mbps. **Esses dois valores são assumidos** e a equipe precisa justificá-los
-  com fonte (`configs/network.yaml`). Servidor linux/amd64 nativo, mesmos modelos FP32 e resoluções.
+  sentido) e subida de 10 Mbps. Servidor linux/amd64 nativo, mesmos modelos FP32 e resoluções.
+  **Atualizada em 17/11/2026:** os dois valores são parâmetros de cenário declarados, não valores
+  típicos. O RTT de 40 ms fica dentro da faixa medida por Corneo et al. (WWW '21, doi
+  10.1145/3442381.3449854), favorável à nuvem para a América do Sul. A subida de 10 Mbit/s não tem fonte
+  específica e fica como limite declarado; como referência, as medianas da Ookla para o Brasil (set/2026)
+  são 137,96 Mbit/s na banda larga fixa e 17,66 Mbit/s na rede móvel. O resultado da QP2 é a banda
+  demandada (bytes × fps), que independe desse limite (`configs/network.yaml`).
 - **D6.** Conjunto de teste: imagens do COCO val2017 que contêm pessoa, sem anotação de multidão,
   balanceadas entre 1, 2 e 3+ pessoas, ordenadas por id, com as anotações da classe pessoa
   (`configs/teste.yaml`, lista e sha256 em `configs/conjunto_teste.csv`; imagens fora do git). Não há
