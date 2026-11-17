@@ -106,6 +106,24 @@ retomáveis: combinação com o arquivo `COMPLETO` não roda de novo. Cada combi
 A amostragem é a reduzida (decisão D8): 18 combinações na borda e 9 na nuvem, 350 quadros cada, com os
 cenários de 5, 15 e 30 FPS derivados na E6. O computador precisa ficar ligado durante a coleta.
 
+### Borda em ARM64 nativo (como a coleta foi feita; decisão D10)
+
+O passo 4 acima roda a borda emulada pelo QEMU, que é lenta demais para a coleta completa (D9). Os
+resultados em `results/e5/borda/` foram medidos numa máquina ARM64 nativa (VM Oracle A1, 2 núcleos
+Neoverse-N1, Ubuntu 24.04), assim:
+
+```bash
+sudo apt-get install -y docker.io docker-buildx git
+git clone https://github.com/joaoleaogf/deteccao-pessoas-borda.git && cd deteccao-pessoas-borda
+# copie para a máquina models/*.tflite, data/teste_coco/ e data/teste/bus.jpg (gerados pela E4 e pelo passo 2)
+sudo DOCKER_BUILDKIT=1 docker build -t borda-arm64 -f docker/Dockerfile.arm64 docker
+sudo docker run --rm -v "$PWD":/repo -w /repo borda-arm64 python src/bench/coletar_borda.py \
+  --perfil oracle-a1-2ocpu --threads 2 --ambiente "ARM64 nativo (Oracle A1, Neoverse-N1, 2 núcleos)"
+```
+
+Apague antes as pastas de `results/e5/borda/` que vierem do git, ou elas serão puladas como concluídas.
+A coleta parcial emulada ficou em `results/e5/anexo_emulado/`, só para comparação.
+
 ## E6: análise
 
 ```powershell
