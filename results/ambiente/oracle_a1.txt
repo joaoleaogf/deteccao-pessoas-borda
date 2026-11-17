@@ -1,0 +1,19 @@
+data (UTC): 2026-11-17T16:54:38Z
+máquina: Oracle Cloud VM.Standard.A1.Flex (2 OCPU, 12 GB), região São Paulo, criada só para a coleta da E5 (D10)
+sistema: Ubuntu 24.04.5 LTS, kernel 7.0.0-1013-oracle, aarch64
+docker: 29.1.3
+-- lscpu
+Architecture:                            aarch64
+CPU(s):                                  2
+Vendor ID:                               ARM
+Model name:                              Neoverse-N1
+Thread(s) per core:                      1
+Core(s) per socket:                      2
+Socket(s):                               1
+BogoMIPS:                                50.00
+Flags:                                   fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+-- memória
+               total        used        free      shared  buff/cache   available
+Mem:            11Gi       617Mi       8.3Gi       5.3Mi       2.9Gi        11Gi
+-- contêiner borda-arm64
+aarch64 3.12.16 ai-edge-litert=2.3.0 numpy=2.5.5 pillow=13.0.0 psutil=7.2.2

@@ -8,10 +8,10 @@
   "resolucao_entrada": 480,
   "quadros": 350,
   "aquecimento": 50,
-  "perfil": "rpi4b",
-  "threads": 4,
-  "inicio_utc": "2026-11-17T03:40:31+00:00",
-  "fim_utc": "2026-11-17T04:27:51+00:00",
+  "perfil": "oracle-a1-2ocpu",
+  "threads": 2,
+  "inicio_utc": "2026-11-17T16:56:24+00:00",
+  "fim_utc": "2026-11-17T16:56:33+00:00",
   "arquitetura": "aarch64",
   "python": "3.12.16",
   "versoes": {
@@ -20,12 +20,14 @@
     "pillow": "13.0.0",
     "psutil": "7.2.2"
   },
-  "qemu_cpu": "cortex-a72",
-  "cpus_visiveis": 12,
+  "qemu_cpu": "(padrão do emulador)",
+  "cpus_visiveis": 2,
   "nms": {
     "iou": 0.5,
     "pontuacao_min": 0.01,
     "max_deteccoes": 100
   },
-  "ambiente": "emulado (QEMU)"
+  "ambiente": "ARM64 nativo (Oracle A1, Neoverse-N1, 2 núcleos)",
+  "kernel": "7.0.0-1013-oracle",
+  "cpu": "Architecture:                            aarch64; CPU(s):                                  2; Vendor ID:                               ARM; Model name:                              Neoverse-N1; Thread(s) per core:                      1; BogoMIPS:                                50.00"
 }

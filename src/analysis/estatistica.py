@@ -3,10 +3,10 @@
 O que faz (determinístico: rodar duas vezes dá os mesmos arquivos):
   - Comparações pareadas por frame_idx (quadros válidos), na métrica t_e2e_ms e em t_infer_ms:
       FP32 x INT8 na borda (mesmo modelo e resolução da fonte)
-      borda x nuvem (mesmo modelo FP32 e resolução da fonte; ATENÇÃO: borda emulada x nuvem nativa,
-      a diferença absoluta NÃO vale como resultado, só é registrada)
+      borda x nuvem (mesmo modelo FP32 e resolução da fonte; ATENÇÃO: servidor ARM de 2 núcleos x servidor
+      x86; não representa um Raspberry Pi, a diferença absoluta é só registrada)
     Shapiro-Wilk nas diferenças; t pareado se p >= 0,05, senão Wilcoxon pareado; alfa = 0,05.
-  - Figuras em PDF e PNG: latência por combinação (borda, emulada), ganho do INT8, banda de subida,
+  - Figuras em PDF e PNG: latência por combinação (borda, ARM64 nativo), ganho do INT8, banda de subida,
     mAP@50 por combinação e fila média por taxa da fonte (derivada).
   - results/RESUMO.md com as tabelas, os testes e as limitações, tudo gerado dos CSVs.
 
@@ -29,7 +29,8 @@ FIG = RAIZ / "figures"
 STATS = RESULTS / "stats"
 ALFA = 0.05
 NOMES = {"yolov8n": "YOLOv8n", "ssd_mobilenet_v1": "SSD-MobileNet V1", "efficientdet_lite0": "EfficientDet-Lite0"}
-AVISO = "Tempos de borda medidos em ambiente EMULADO (QEMU, perfil rpi4b); não representam um Raspberry Pi."
+AVISO = ("Tempos de borda medidos em ARM64 nativo (VM Oracle A1, Neoverse-N1, 2 núcleos); "
+         "não representam um Raspberry Pi.")
 
 
 def ler(caminho: Path) -> list[dict]:
@@ -92,8 +93,8 @@ def comparacoes(summary: list[dict]) -> tuple[list[dict], list[dict]]:
                 k = sorted(set(a) & set(b))
                 r = testar(np.array([float(a[i][metrica]) for i in k]), np.array([float(b[i][metrica]) for i in k]))
                 borda_nuvem.append({"modelo": modelo, "resolucao_fonte": res, "metrica": metrica,
-                                    "a": "borda FP32 (emulada)", "b": "nuvem FP32 (nativa)", **r,
-                                    "observacao": "comparação absoluta não vale como resultado (emulado x nativo)"})
+                                    "a": "borda FP32 (ARM64 nativo, 2 núcleos)", "b": "nuvem FP32 (x86 nativo)", **r,
+                                    "observacao": "servidor ARM x servidor x86; não representa um Raspberry Pi"})
     return fp_int, borda_nuvem
 
 
@@ -125,14 +126,13 @@ def figuras(summary: list[dict], qual: list[dict]) -> list[str]:
             for m, r in rot:
                 l = next((l for l in borda if l["modelo"] == m and int(l["resolucao_fonte"]) == r
                           and l["precisao"] == prec), None)
-                v = float(l["t_e2e_ms_media"]) / 1000 if l else np.nan
+                v = float(l["t_e2e_ms_media"]) if l else np.nan
                 med.append(v)
-                lo.append(v - float(l["t_e2e_ms_ic95_inf"]) / 1000 if l else 0)
-                hi.append(float(l["t_e2e_ms_ic95_sup"]) / 1000 - v if l else 0)
+                lo.append(v - float(l["t_e2e_ms_ic95_inf"]) if l else 0)
+                hi.append(float(l["t_e2e_ms_ic95_sup"]) - v if l else 0)
             ax.bar(x + (j - 0.5) * 0.38, med, 0.38, yerr=[lo, hi], capsize=2, color=cores[prec], label=prec.upper())
         ax.set_xticks(x, [f"{NOMES[m]}\n{r}" for m, r in rot], fontsize=7)
-        ax.set_ylabel("t_e2e médio por quadro (s)")
-        ax.set_yscale("log")
+        ax.set_ylabel("t_e2e médio por quadro (ms)")
         ax.set_title("Borda: latência fim a fim por combinação (média, IC 95%)\n" + AVISO, fontsize=8)
         ax.legend()
         salvar(fig, "e6_borda_latencia")
@@ -223,10 +223,12 @@ def resumo_md(summary, qual, fp_int, borda_nuvem, figs) -> str:
          "- **Amostragem reduzida (decisão D8, altera o desenho da ATV 04):** cada combinação modelo × precisão × "
          "resolução foi medida uma vez, com 350 quadros (50 de aquecimento + 300 válidos). Os cenários de 5, 15 e 30 FPS "
          "são **derivados** dessas medições (quadro i disponível em i/fps), não medidos em execução própria.",
-         "- A comparação absoluta de latência borda (emulada) × nuvem (nativa) **não vale como resultado**. O resultado "
+         "- A latência borda × nuvem compara um servidor ARM de 2 núcleos com um servidor x86 e **não representa um Raspberry Pi**. O resultado "
          "sólido da QP2 é a **banda de subida**: a nuvem precisa enviar o vídeo; a borda não envia nenhum quadro.",
          "- Nuvem: rede emulada com `tc netem` (RTT 40 ms, subida 10 Mbit/s): valores assumidos que a equipe precisa "
          "justificar com fonte. Executada em paralelo com a coleta da borda.",
+         "- Memória: `rss_mb_max` inclui os 350 quadros da fonte pré-carregados; `rss_mb_max_sem_quadros` desconta "
+         "esse volume (350 × res × res × 3 bytes).",
          "- Energia: não calculada (sem potência de referência com fonte verificável em `configs/energia.yaml`).", "",
          "## Qualidade (mAP@50 da classe pessoa, 350 imagens)", "",
          tabela_md(qual, [("parte", "parte"), ("modelo", "modelo"), ("precisao", "precisão"),
@@ -249,16 +251,16 @@ def resumo_md(summary, qual, fp_int, borda_nuvem, figs) -> str:
                                 ("razao_medias_a_sobre_b", "FP32/INT8"), ("shapiro_p", "Shapiro p"),
                                 ("teste", "teste"), ("p_valor", "p"), ("significativo_005", "p < 0,05")])
              if fp_int else "_Sem pares completos ainda (faltam combinações FP32 da borda)._")
-    p += ["", "## Testes pareados borda × nuvem (registro; não vale como resultado absoluto)", ""]
+    p += ["", "## Testes pareados borda × nuvem (servidor ARM × servidor x86; não representa um Raspberry Pi)", ""]
     p.append(tabela_md(borda_nuvem, [("modelo", "modelo"), ("resolucao_fonte", "res."), ("metrica", "métrica"),
                                      ("n_pares", "n"), ("media_a", "média borda"), ("media_b", "média nuvem"),
                                      ("teste", "teste"), ("p_valor", "p")])
              if borda_nuvem else "_Sem pares completos ainda (faltam combinações FP32 da borda)._")
     p += ["", "## Figuras", ""] + [f"- `figures/{f}.pdf` e `.png`" for f in figs]
     p += ["", "## Limitações", "",
-          "- Emulação QEMU: os tempos de borda servem para comparação relativa (FP32 × INT8, entre modelos e "
-          "resoluções), não como tempo de um Raspberry Pi. A biblioteca Python do LiteRT é cerca de 10× mais lenta que "
-          "o `benchmark_model` sob o QEMU (D9).",
+          "- Borda em ARM64 nativo num servidor Neoverse-N1 com 2 núcleos (D10): os tempos servem para comparação relativa "
+          "(FP32 × INT8, entre modelos e resoluções), não como tempo de um Raspberry Pi (Cortex-A72/A76, 4 núcleos). "
+          "Uma coleta parcial anterior sob emulação QEMU fica em `results/e5/anexo_emulado/` só como comparação (D9).",
           "- Cenários de FPS derivados e amostragem reduzida (D8).",
           "- Conjunto de teste do COCO val2017; não há gravações residenciais (D6).",
           "- INT8 do YOLOv8n é híbrido (D2); Edge TPU avaliado só pelo relatório do compilador (E4).",

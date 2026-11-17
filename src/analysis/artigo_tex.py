@@ -90,20 +90,21 @@ def main() -> None:
                        and l["precisao"] == "int8"), None)
             if not (fp or it):
                 continue
-            cel = lambda l: (f"{br(float(l['t_e2e_ms_media']) / 1000, 2)} [{br(float(l['t_e2e_ms_ic95_inf']) / 1000, 2)}; "  # noqa: E731
-                             f"{br(float(l['t_e2e_ms_ic95_sup']) / 1000, 2)}]") if l else "--"
+            cel = lambda l: (f"{br(l['t_e2e_ms_media'], 1)} [{br(l['t_e2e_ms_ic95_inf'], 1)}; "  # noqa: E731
+                             f"{br(l['t_e2e_ms_ic95_sup'], 1)}]") if l else "--"
             razao = br(float(fp["t_e2e_ms_media"]) / float(it["t_e2e_ms_media"]), 1) if (fp and it) else "--"
             linhas.append([NOMES[m], r, cel(fp), cel(it), razao])
             for l in (fp, it):
                 if l:
                     k = f"{MAC_M[m]}{MAC_P[l['precisao']]}{MAC_R[r]}"
-                    macros[f"etoe{k}"] = br(float(l["t_e2e_ms_media"]) / 1000, 2)
+                    macros[f"etoe{k}"] = br(l["t_e2e_ms_media"], 1)
+                    macros[f"fps{k}"] = br(l["fps_sustentavel"], 1)
                     macros[f"cpu{k}"] = br(l.get("cpu_pct_media"), 0)
-                    macros[f"rss{k}"] = br(l.get("rss_mb_max"), 0)
+                    macros[f"rss{k}"] = br(l.get("rss_mb_max_sem_quadros"), 0)
             macros[f"razao{MAC_M[m]}{MAC_R[r]}"] = razao
-    tabela("latencia_borda", "Latência fim a fim por quadro na borda (s; média e IC 95\\%), ambiente emulado (QEMU, perfil rpi4b).",
+    tabela("latencia_borda", "Latência fim a fim por quadro na borda (ms; média e IC 95\\%), ARM64 nativo (VM Oracle A1, Neoverse-N1, 2 núcleos).",
            ["Modelo", "Resolução", "FP32", "INT8", "FP32/INT8"], linhas, "llccr",
-           "Tempos medidos em emulação: servem para comparação relativa, não representam um Raspberry Pi. "
+           "Servidor ARM com 2 núcleos: os tempos servem para comparação relativa, não representam um Raspberry Pi. "
            "300 quadros válidos por combinação.")
 
     # Nuvem

@@ -1,2 +1,19 @@
-situacao
-sem pares completos
+modelo,resolucao_fonte,metrica,a,b,n_pares,media_a,media_b,mediana_a,mediana_b,diferenca_media,diferenca_mediana,razao_medias_a_sobre_b,shapiro_W,shapiro_p,teste,estatistica,p_valor,significativo_005
+efficientdet_lite0,320,t_e2e_ms,borda FP32,borda INT8,300,37.707,22.463,37.725,22.657,15.244,14.995,1.6786,0.4278,8.719e-30,Wilcoxon pareado,0.0,6.083e-51,True
+efficientdet_lite0,320,t_infer_ms,borda FP32,borda INT8,300,33.683,14.394,33.38,14.343,19.289,19.027,2.3401,0.3759,8.427e-31,Wilcoxon pareado,0.0,6.083e-51,True
+efficientdet_lite0,480,t_e2e_ms,borda FP32,borda INT8,300,39.942,24.944,39.945,25.169,14.998,14.718,1.6013,0.5742,1.82e-26,Wilcoxon pareado,0.0,6.083e-51,True
+efficientdet_lite0,480,t_infer_ms,borda FP32,borda INT8,300,33.616,14.342,33.314,14.277,19.275,18.995,2.344,0.5436,3.163e-27,Wilcoxon pareado,0.0,6.083e-51,True
+efficientdet_lite0,640,t_e2e_ms,borda FP32,borda INT8,300,40.687,25.581,40.885,25.796,15.106,15.006,1.5905,0.5821,2.912e-26,Wilcoxon pareado,0.0,6.083e-51,True
+efficientdet_lite0,640,t_infer_ms,borda FP32,borda INT8,300,33.463,14.36,33.298,14.291,19.103,18.977,2.3302,0.4798,1.081e-28,Wilcoxon pareado,0.0,6.083e-51,True
+ssd_mobilenet_v1,320,t_e2e_ms,borda FP32,borda INT8,300,40.357,17.191,40.351,17.211,23.167,23.143,2.3476,0.788,1.883e-19,Wilcoxon pareado,0.0,6.083e-51,True
+ssd_mobilenet_v1,320,t_infer_ms,borda FP32,borda INT8,300,34.786,10.965,34.706,10.915,23.821,23.766,3.1725,0.7614,1.456e-20,Wilcoxon pareado,0.0,6.083e-51,True
+ssd_mobilenet_v1,480,t_e2e_ms,borda FP32,borda INT8,300,41.125,17.802,41.021,17.8,23.323,23.174,2.3102,0.7618,1.514e-20,Wilcoxon pareado,0.0,6.083e-51,True
+ssd_mobilenet_v1,480,t_infer_ms,borda FP32,borda INT8,300,34.826,10.963,34.642,10.921,23.863,23.709,3.1768,0.6325,6.877e-25,Wilcoxon pareado,0.0,6.082e-51,True
+ssd_mobilenet_v1,640,t_e2e_ms,borda FP32,borda INT8,300,42.063,18.98,41.988,18.963,23.082,22.987,2.2161,0.7531,6.917e-21,Wilcoxon pareado,0.0,6.083e-51,True
+ssd_mobilenet_v1,640,t_infer_ms,borda FP32,borda INT8,300,34.832,10.966,34.669,10.912,23.866,23.751,3.1765,0.4839,1.331e-28,Wilcoxon pareado,0.0,6.083e-51,True
+yolov8n,320,t_e2e_ms,borda FP32,borda INT8,300,34.724,11.178,34.564,11.063,23.546,23.473,3.1064,0.4047,3.023e-30,Wilcoxon pareado,0.0,6.083e-51,True
+yolov8n,320,t_infer_ms,borda FP32,borda INT8,300,33.692,10.15,33.552,10.077,23.542,23.468,3.3194,0.388,1.437e-30,Wilcoxon pareado,0.0,6.082e-51,True
+yolov8n,480,t_e2e_ms,borda FP32,borda INT8,300,77.01,24.922,76.841,25.032,52.088,51.942,3.0901,0.7694,3.076e-20,Wilcoxon pareado,0.0,6.083e-51,True
+yolov8n,480,t_infer_ms,borda FP32,borda INT8,300,74.14,21.934,73.884,21.767,52.206,52.075,3.3801,0.7543,7.646e-21,Wilcoxon pareado,0.0,6.083e-51,True
+yolov8n,640,t_e2e_ms,borda FP32,borda INT8,300,136.506,42.834,136.263,42.876,93.672,93.897,3.1869,0.964,8.664e-07,Wilcoxon pareado,0.0,6.083e-51,True
+yolov8n,640,t_infer_ms,borda FP32,borda INT8,300,132.068,38.475,131.685,38.326,93.593,93.271,3.4326,0.8707,3.51e-15,Wilcoxon pareado,0.0,6.083e-51,True

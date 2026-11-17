@@ -108,6 +108,18 @@ Falta escolher a fonte da literatura e o valor de potência de cada placa.
   **Adotado:** coleta com `QEMU_CPU=cortex-a72`, registrado no manifesto de cada combinação; os 9 INT8
   rodam com 350 quadros. **Pendente (decisão da equipe):** como medir os 9 FP32 (350 quadros em ~2,5
   dias, 100 quadros em ~16 h, ou inferência pelo `benchmark_model`).
+- **D10. Borda medida em ARM64 nativo, não mais emulada (decisão do usuário em 17/11/2026).**
+  A coleta da borda passou para uma VM ARM da Oracle Cloud (VM.Standard.A1.Flex, Ampere com núcleos
+  Neoverse-N1, 2 OCPU, 12 GB, Ubuntu 24.04, região São Paulo, cota gratuita), criada só para isso e
+  apagada no fim. O contêiner `borda-arm64` roda lá sem QEMU, com 2 threads (perfil `oracle-a1-2ocpu`
+  em `configs/profiles.yaml`). Motivo: sob o QEMU a coleta levaria ~2 dias (D9); em ARM nativo, a primeira
+  combinação (YOLOv8n INT8, fonte 320) levou 11,2 ms por quadro e a coleta inteira cabe em minutos.
+  Validação: o mAP@50 dessa combinação na VM (0,676) é igual ao da validação no x86 (0,676).
+  As 18 combinações foram refeitas na VM, inclusive as 2 INT8 já medidas no emulador; o que a coleta
+  emulada mediu fica em `results/e5/anexo_emulado/` como anexo de comparação (marcado como emulado).
+  **Limitação:** um núcleo Neoverse-N1 de servidor não é um Raspberry Pi (Cortex-A72 no Pi 4,
+  Cortex-A76 no Pi 5) e são 2 núcleos, não 4; os tempos servem para comparar modelos, precisões e
+  resoluções em ARM64 real, não como tempo absoluto de um Pi.
 - **Execução paralela.** O baseline de nuvem rodou ao mesmo tempo que a coleta da borda (host com 12
   CPUs; borda limitada a 4). Fica registrado no manifesto de cada combinação de nuvem.
 - **Métricas de qualidade.** mAP@50 da classe pessoa (pycocotools) e precisão, revocação e F1 com

@@ -1,12 +1,12 @@
 # Plano da E5 (coleta) e da E6 (análise)
 
-Escrito em 16/11/2026. As decisões que este plano segue estão em `docs/decisoes.md` (D1, D2, D4 a D8).
+Escrito em 16/11/2026. As decisões que este plano segue estão em `docs/decisoes.md` (D1, D2, D4 a D10). Atualizado em 17/11/2026: a borda passou a ser medida em ARM64 nativo (D10).
 
 ## O que é medido
 
 | Parte | Onde roda | Unidade medida | Quantidade |
 |---|---|---|---|
-| Borda | contêiner `borda-arm64` (QEMU, perfil `rpi4b`) | 18 combinações modelo × precisão × resolução da fonte | 350 quadros cada (50 de aquecimento) |
+| Borda | contêiner `borda-arm64` em ARM64 nativo (VM Oracle A1, Neoverse-N1, 2 núcleos; D10) | 18 combinações modelo × precisão × resolução da fonte | 350 quadros cada (50 de aquecimento) |
 | Nuvem | 2 contêineres linux/amd64 (cliente e servidor) numa rede Docker com `tc netem` | 9 combinações modelo × resolução (FP32) | 350 quadros cada (50 de aquecimento) |
 | Qualidade | x86 (`borda-prep`) a partir das detecções salvas | 18 combinações (borda) e 9 (nuvem) | 350 imagens |
 
@@ -40,10 +40,11 @@ uma coluna à parte conta os quadros que uma política de "descartar se ocupado"
 - Comparações pareadas por `frame_idx`: FP32 × INT8 (mesmo modelo e resolução) e borda × nuvem (mesmo
   modelo FP32 e resolução). Shapiro-Wilk nas diferenças; t pareado se normal, senão Wilcoxon; p < 0,05.
 - Banda: bytes enviados por quadro na nuvem × fps, contra nenhum envio de vídeo na borda. É o resultado
-  sólido da QP2; a comparação absoluta de latência borda emulada × nuvem nativa não vale como resultado.
+  sólido da QP2. A latência borda × nuvem é registrada, mas compara um servidor ARM de 2 núcleos com um
+  servidor x86: não representa um Raspberry Pi.
 
 ## Limitações a declarar
 
-Tempos de borda vêm de emulação (QEMU) e não representam um Raspberry Pi; cenários de FPS derivados;
+Tempos de borda vêm de ARM64 nativo num servidor Neoverse-N1 com 2 núcleos (D10), não de um Raspberry Pi; cenários de FPS derivados;
 amostragem reduzida (D8); rede emulada com valores assumidos; sem gravações residenciais; energia só
 com potência de fonte verificável; Edge TPU só pelo relatório do compilador.

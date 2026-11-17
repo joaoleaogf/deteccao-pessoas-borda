@@ -1,0 +1,33 @@
+{
+  "combinacao": "ssd_mobilenet_v1_int8_480",
+  "modelo": "ssd_mobilenet_v1",
+  "precisao": "int8",
+  "resolucao_fonte": 480,
+  "arquivo_modelo": "ssd_mobilenet_v1_int8_300.tflite",
+  "sha256_modelo": "c02a113566f894da035f77265d7919b2ff38c06d0ef74fcfc3ffde49f2fdba54",
+  "resolucao_entrada": 300,
+  "quadros": 350,
+  "aquecimento": 50,
+  "perfil": "oracle-a1-2ocpu",
+  "threads": 2,
+  "inicio_utc": "2026-11-17T16:43:37+00:00",
+  "fim_utc": "2026-11-17T16:43:43+00:00",
+  "arquitetura": "aarch64",
+  "python": "3.12.16",
+  "versoes": {
+    "ai-edge-litert": "2.3.0",
+    "numpy": "2.5.5",
+    "pillow": "13.0.0",
+    "psutil": "7.2.2"
+  },
+  "qemu_cpu": "(padrão do emulador)",
+  "cpus_visiveis": 2,
+  "nms": {
+    "iou": 0.5,
+    "pontuacao_min": 0.01,
+    "max_deteccoes": 100
+  },
+  "ambiente": "ARM64 nativo (Oracle A1, Neoverse-N1, 2 núcleos)",
+  "kernel": "7.0.0-1013-oracle",
+  "cpu": "Architecture:                            aarch64; CPU(s):                                  2; Vendor ID:                               ARM; Model name:                              Neoverse-N1; Thread(s) per core:                      1; BogoMIPS:                                50.00"
+}

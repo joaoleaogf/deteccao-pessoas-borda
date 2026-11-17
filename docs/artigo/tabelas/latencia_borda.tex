@@ -2,15 +2,22 @@
 \begin{table}[htbp]
 \centering
 \footnotesize
-\caption{Latência fim a fim por quadro na borda (s; média e IC 95\%), ambiente emulado (QEMU, perfil rpi4b).}
+\caption{Latência fim a fim por quadro na borda (ms; média e IC 95\%), ARM64 nativo (VM Oracle A1, Neoverse-N1, 2 núcleos).}
 \label{tab:latencia_borda}
 \begin{tabular}{llccr}
 \hline
 Modelo & Resolução & FP32 & INT8 & FP32/INT8 \\
 \hline
-YOLOv8n & 320 & -- & 4,00 [3,95; 4,05] & -- \\
-YOLOv8n & 480 & -- & 8,14 [8,04; 8,23] & -- \\
+YOLOv8n & 320 & 34,7 [34,6; 34,8] & 11,2 [11,1; 11,2] & 3,1 \\
+YOLOv8n & 480 & 77,0 [76,9; 77,2] & 24,9 [24,8; 25,0] & 3,1 \\
+YOLOv8n & 640 & 136,5 [136,3; 136,7] & 42,8 [42,7; 42,9] & 3,2 \\
+SSD-MobileNet V1 & 320 & 40,4 [40,3; 40,4] & 17,2 [17,1; 17,2] & 2,3 \\
+SSD-MobileNet V1 & 480 & 41,1 [41,0; 41,2] & 17,8 [17,8; 17,9] & 2,3 \\
+SSD-MobileNet V1 & 640 & 42,1 [42,0; 42,2] & 19,0 [18,9; 19,0] & 2,2 \\
+EfficientDet-Lite0 & 320 & 37,7 [37,5; 37,9] & 22,5 [22,4; 22,6] & 1,7 \\
+EfficientDet-Lite0 & 480 & 39,9 [39,8; 40,1] & 24,9 [24,8; 25,1] & 1,6 \\
+EfficientDet-Lite0 & 640 & 40,7 [40,6; 40,8] & 25,6 [25,5; 25,7] & 1,6 \\
 \hline
 \end{tabular}
-\par\smallskip\parbox{0.95\linewidth}{\scriptsize Tempos medidos em emulação: servem para comparação relativa, não representam um Raspberry Pi. 300 quadros válidos por combinação.}
+\par\smallskip\parbox{0.95\linewidth}{\scriptsize Servidor ARM com 2 núcleos: os tempos servem para comparação relativa, não representam um Raspberry Pi. 300 quadros válidos por combinação.}
 \end{table}

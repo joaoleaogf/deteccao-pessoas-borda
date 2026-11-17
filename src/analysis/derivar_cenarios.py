@@ -136,6 +136,9 @@ def main() -> None:
                     linha["t_post_ms_media"] = round(float(np.mean([float(l["t_post_ms"]) for l in linhas])), 3)
                     linha["cpu_pct_media"] = round(float(np.mean([float(l["cpu_pct"]) for l in linhas])), 1)
                     linha["rss_mb_max"] = round(float(max(float(l["rss_mb"]) for l in linhas)), 1)
+                    # O RSS inclui os 350 quadros da fonte pré-carregados (350 x res x res x 3 bytes):
+                    quadros_mb = man["quadros"] * int(man["resolucao_fonte"]) ** 2 * 3 / 2**20
+                    linha["rss_mb_max_sem_quadros"] = round(linha["rss_mb_max"] - quadros_mb, 1)
                     linha["banda_subida_kbps"] = 0.0
                 else:
                     by = np.array([float(l["bytes_jpeg"]) for l in linhas])

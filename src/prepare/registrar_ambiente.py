@@ -20,6 +20,8 @@ SECOES = [
     ("prep.txt", "Contêiner de preparação (linux/amd64)", "Imagem borda-prep: exportação e quantização."),
     ("edgetpu.txt", "Edge TPU Compiler (linux/amd64)", "Imagem borda-edgetpu."),
     ("arm64.txt", "Contêiner de medição (linux/arm64, emulado por QEMU)", "Imagem borda-arm64."),
+    ("oracle_a1.txt", "Máquina ARM64 nativa da coleta da E5 (Oracle A1)",
+     "VM criada só para a coleta da borda (decisão D10) e apagada depois. Anotado pela coleta."),
 ]
 
 

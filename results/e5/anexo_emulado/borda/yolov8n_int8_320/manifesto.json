@@ -1,0 +1,31 @@
+{
+  "combinacao": "yolov8n_int8_320",
+  "modelo": "yolov8n",
+  "precisao": "int8",
+  "resolucao_fonte": 320,
+  "arquivo_modelo": "yolov8n_int8_320.tflite",
+  "sha256_modelo": "415704ff05c6f0f782a037536e6914663a3ba0960a6ed22a3540e383eb99864a",
+  "resolucao_entrada": 320,
+  "quadros": 350,
+  "aquecimento": 50,
+  "perfil": "rpi4b",
+  "threads": 4,
+  "inicio_utc": "2026-11-17T03:15:34+00:00",
+  "fim_utc": "2026-11-17T03:38:58+00:00",
+  "arquitetura": "aarch64",
+  "python": "3.12.16",
+  "versoes": {
+    "ai-edge-litert": "2.3.0",
+    "numpy": "2.5.5",
+    "pillow": "13.0.0",
+    "psutil": "7.2.2"
+  },
+  "qemu_cpu": "cortex-a72",
+  "cpus_visiveis": 12,
+  "nms": {
+    "iou": 0.5,
+    "pontuacao_min": 0.01,
+    "max_deteccoes": 100
+  },
+  "ambiente": "emulado (QEMU)"
+}

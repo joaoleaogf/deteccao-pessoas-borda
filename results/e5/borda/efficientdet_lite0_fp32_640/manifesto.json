@@ -1,0 +1,33 @@
+{
+  "combinacao": "efficientdet_lite0_fp32_640",
+  "modelo": "efficientdet_lite0",
+  "precisao": "fp32",
+  "resolucao_fonte": 640,
+  "arquivo_modelo": "efficientdet_lite0_fp32_320.tflite",
+  "sha256_modelo": "40338edf5ec70d43e318b0a716a84d4564cd1802759a7a07170c7e43796dbf58",
+  "resolucao_entrada": 320,
+  "quadros": 350,
+  "aquecimento": 50,
+  "perfil": "oracle-a1-2ocpu",
+  "threads": 2,
+  "inicio_utc": "2026-11-17T16:47:27+00:00",
+  "fim_utc": "2026-11-17T16:47:42+00:00",
+  "arquitetura": "aarch64",
+  "python": "3.12.16",
+  "versoes": {
+    "ai-edge-litert": "2.3.0",
+    "numpy": "2.5.5",
+    "pillow": "13.0.0",
+    "psutil": "7.2.2"
+  },
+  "qemu_cpu": "(padrão do emulador)",
+  "cpus_visiveis": 2,
+  "nms": {
+    "iou": 0.5,
+    "pontuacao_min": 0.01,
+    "max_deteccoes": 100
+  },
+  "ambiente": "ARM64 nativo (Oracle A1, Neoverse-N1, 2 núcleos)",
+  "kernel": "7.0.0-1013-oracle",
+  "cpu": "Architecture:                            aarch64; CPU(s):                                  2; Vendor ID:                               ARM; Model name:                              Neoverse-N1; Thread(s) per core:                      1; BogoMIPS:                                50.00"
+}

@@ -4,3 +4,35 @@
 2026-11-17T04:27:54+00:00 fim yolov8n_int8_480 código 0
 2026-11-17T04:27:54+00:00 início yolov8n_int8_640
 2026-11-17T16:18:05+00:00 início yolov8n_int8_640
+2026-11-17T16:43:08+00:00 início yolov8n_int8_640
+2026-11-17T16:43:26+00:00 fim yolov8n_int8_640 código 0
+2026-11-17T16:43:26+00:00 início ssd_mobilenet_v1_int8_320
+2026-11-17T16:43:35+00:00 fim ssd_mobilenet_v1_int8_320 código 0
+2026-11-17T16:43:35+00:00 início ssd_mobilenet_v1_int8_480
+2026-11-17T16:43:44+00:00 fim ssd_mobilenet_v1_int8_480 código 0
+2026-11-17T16:43:44+00:00 início ssd_mobilenet_v1_int8_640
+2026-11-17T16:43:53+00:00 fim ssd_mobilenet_v1_int8_640 código 0
+2026-11-17T16:43:53+00:00 início efficientdet_lite0_int8_320
+2026-11-17T16:44:03+00:00 fim efficientdet_lite0_int8_320 código 0
+2026-11-17T16:44:03+00:00 início efficientdet_lite0_int8_480
+2026-11-17T16:44:15+00:00 fim efficientdet_lite0_int8_480 código 0
+2026-11-17T16:44:15+00:00 início efficientdet_lite0_int8_640
+2026-11-17T16:44:26+00:00 fim efficientdet_lite0_int8_640 código 0
+2026-11-17T16:44:26+00:00 início yolov8n_fp32_320
+2026-11-17T16:44:41+00:00 fim yolov8n_fp32_320 código 0
+2026-11-17T16:44:41+00:00 início yolov8n_fp32_480
+2026-11-17T16:45:10+00:00 fim yolov8n_fp32_480 código 0
+2026-11-17T16:45:10+00:00 início yolov8n_fp32_640
+2026-11-17T16:46:01+00:00 fim yolov8n_fp32_640 código 0
+2026-11-17T16:46:01+00:00 início ssd_mobilenet_v1_fp32_320
+2026-11-17T16:46:18+00:00 fim ssd_mobilenet_v1_fp32_320 código 0
+2026-11-17T16:46:18+00:00 início ssd_mobilenet_v1_fp32_480
+2026-11-17T16:46:35+00:00 fim ssd_mobilenet_v1_fp32_480 código 0
+2026-11-17T16:46:35+00:00 início ssd_mobilenet_v1_fp32_640
+2026-11-17T16:46:52+00:00 fim ssd_mobilenet_v1_fp32_640 código 0
+2026-11-17T16:46:52+00:00 início efficientdet_lite0_fp32_320
+2026-11-17T16:47:08+00:00 fim efficientdet_lite0_fp32_320 código 0
+2026-11-17T16:47:08+00:00 início efficientdet_lite0_fp32_480
+2026-11-17T16:47:25+00:00 fim efficientdet_lite0_fp32_480 código 0
+2026-11-17T16:47:25+00:00 início efficientdet_lite0_fp32_640
+2026-11-17T16:47:42+00:00 fim efficientdet_lite0_fp32_640 código 0
