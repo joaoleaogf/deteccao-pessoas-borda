@@ -193,8 +193,9 @@ def main() -> None:
            "@{}ll*{4}{r}rr@{}",
            [r"& & \multicolumn{2}{c}{FP32 (ms)} & \multicolumn{2}{c}{INT8 (ms)} & & \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6}",
             r"Modelo & {Res. (px)} & {média} & {p95} & {média} & {p95} & {FP32/INT8} & {$p$}"], linhas,
-           "300 quadros válidos por combinação. $p$: teste de Wilcoxon pareado FP32 $\\times$ INT8 (o Shapiro-Wilk rejeitou a "
-           "normalidade das diferenças em todos os pares; $\\alpha = 0{,}05$). Servidor ARM de 2 núcleos: os tempos servem "
+           "300 quadros válidos por combinação. $p$: teste de Wilcoxon pareado FP32 $\\times$ INT8 na latência fim a fim, um por "
+           "par modelo $\\times$ resolução (o Shapiro-Wilk rejeitou a normalidade das diferenças em todos; $\\alpha = 0{,}05$, "
+           "sem correção para múltiplas comparações). Servidor ARM de 2 núcleos: os tempos servem "
            "para comparação relativa e não representam um Raspberry Pi.", larga=True)
 
     linhas = []
@@ -284,6 +285,8 @@ def main() -> None:
     # ---------------- macros ----------------
     n_b = len({(l["modelo"], l["precisao"], l["resolucao_fonte"]) for l in summary if l["parte"] == "borda"})
     n_n = len({(l["modelo"], l["resolucao_fonte"]) for l in summary if l["parte"] == "nuvem"})
+    n_pares = len({(t["modelo"], t["resolucao_fonte"]) for t in testes})
+    macros.update({"nParesFpInt": str(n_pares), "nTestesFpInt": str(len(testes))})
     macros.update({"nCombBorda": str(n_b), "nCombNuvem": str(n_n), "nCenarios": str(len(summary)),
                    "nQuadrosValidos": b15[0]["quadros_validos"] if b15 else "--"})
     corpo = [CABECALHO.strip()] + [rf"\newcommand{{\{k}}}{{{v}}}" for k, v in sorted(macros.items())]

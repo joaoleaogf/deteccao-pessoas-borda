@@ -165,6 +165,8 @@ Combinações medidas: borda 18 de 18; nuvem 9 de 9. Cenários em `results/summa
 
 ## Testes pareados FP32 × INT8 na borda
 
+Um teste por par modelo × resolução (9 pares) em duas métricas (latência fim a fim e de inferência): 18 testes, sem correção para múltiplas comparações.
+
 | modelo | res. | métrica | n | média FP32 | média INT8 | FP32/INT8 | Shapiro p | teste | p | p < 0,05 |
 |---|---|---|---|---|---|---|---|---|---|---|
 | efficientdet_lite0 | 320 | t_e2e_ms | 300 | 37.707 | 22.463 | 1.6786 | 8.719e-30 | Wilcoxon pareado | 6.083e-51 | True |

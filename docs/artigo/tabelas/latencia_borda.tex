@@ -22,5 +22,5 @@ EfficientDet-Lite0 & 320 & 37,7 & 39,9 & 22,5 & 23,6 & 1,7 & {$<0{,}001$} \\
 \bottomrule
 \end{tabular}
 \par\smallskip
-\parbox{0.96\linewidth}{\scriptsize 300 quadros válidos por combinação. $p$: teste de Wilcoxon pareado FP32 $\times$ INT8 (o Shapiro-Wilk rejeitou a normalidade das diferenças em todos os pares; $\alpha = 0{,}05$). Servidor ARM de 2 núcleos: os tempos servem para comparação relativa e não representam um Raspberry Pi.}
+\parbox{0.96\linewidth}{\scriptsize 300 quadros válidos por combinação. $p$: teste de Wilcoxon pareado FP32 $\times$ INT8 na latência fim a fim, um por par modelo $\times$ resolução (o Shapiro-Wilk rejeitou a normalidade das diferenças em todos; $\alpha = 0{,}05$, sem correção para múltiplas comparações). Servidor ARM de 2 núcleos: os tempos servem para comparação relativa e não representam um Raspberry Pi.}
 \end{table*}

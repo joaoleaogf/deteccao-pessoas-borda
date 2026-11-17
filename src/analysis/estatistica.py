@@ -245,7 +245,9 @@ def resumo_md(summary, qual, fp_int, borda_nuvem, figs) -> str:
                              ("resolucao_fonte", "res."), ("fps_fonte", "FPS"), ("banda_subida_kbps", "subida (kbit/s)"),
                              ("t_fila_ms_media", "fila média (ms)"),
                              ("taxa_descarte_se_ocupado", "descarte se ocupado")]),
-         "", "## Testes pareados FP32 × INT8 na borda", ""]
+         "", "## Testes pareados FP32 × INT8 na borda", "",
+         "Um teste por par modelo × resolução (9 pares) em duas métricas (latência fim a fim e de inferência): 18 testes, "
+         "sem correção para múltiplas comparações.", ""]
     p.append(tabela_md(fp_int, [("modelo", "modelo"), ("resolucao_fonte", "res."), ("metrica", "métrica"),
                                 ("n_pares", "n"), ("media_a", "média FP32"), ("media_b", "média INT8"),
                                 ("razao_medias_a_sobre_b", "FP32/INT8"), ("shapiro_p", "Shapiro p"),
