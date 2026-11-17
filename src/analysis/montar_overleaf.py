@@ -43,7 +43,13 @@ def main() -> None:
     shutil.copytree(RAIZ / "docs" / "artigo" / "equipe", args.saida, dirs_exist_ok=True)
     shutil.copy2(RAIZ / "docs" / "artigo" / "numeros.tex", args.saida / "numeros.tex")
     shutil.copytree(RAIZ / "docs" / "artigo" / "tabelas", args.saida / "tabelas")
-    shutil.copytree(RAIZ / "docs" / "artigo" / "figuras", args.saida / "figuras")
+    # Figuras de dados e diagrama: PDF pré-compilado em figs/e6-*.pdf, fonte em figs/src/e6-*.tex
+    (args.saida / "figs" / "src").mkdir(parents=True, exist_ok=True)
+    for f in sorted((RAIZ / "docs" / "artigo" / "figuras").glob("*")):
+        if f.suffix == ".pdf":
+            shutil.copy2(f, args.saida / "figs" / f"e6-{f.name}")
+        elif f.suffix == ".tex":
+            shutil.copy2(f, args.saida / "figs" / "src" / ("e6_pre.tex" if f.name == "_pre.tex" else f"e6-{f.name}"))
 
     arq_zip = args.saida.with_suffix(".zip")
     with zipfile.ZipFile(arq_zip, "w", zipfile.ZIP_DEFLATED) as z:

@@ -1,0 +1,28 @@
+% Diagrama das duas cadeias medidas no experimento (borda e nuvem), no estilo das figuras de figs/src/.
+% Usa os estilos caixa, disp, seta e rot definidos em configuracao.tex.
+\begin{tikzpicture}[node distance=2.4mm]
+  % Borda
+  \node[font=\footnotesize\bfseries, anchor=east] at (-0.15,0) {borda};
+  \node[disp] (q1) at (0.75,0) {quadro\\(res. $\times$ res.)};
+  \node[caixa, right=of q1] (pre) {pré-processamento\\redimensionar, normalizar};
+  \node[caixa, right=of pre, fill=gray!25] (inf) {inferência LiteRT\\FP32 ou INT8, 2 threads};
+  \node[caixa, right=of inf] (pos) {pós-processamento\\decodificação, NMS};
+  \node[disp, right=of pos] (det) {detecções\\(pessoa)};
+  \draw[seta] (q1) -- (pre); \draw[seta] (pre) -- (inf); \draw[seta] (inf) -- (pos); \draw[seta] (pos) -- (det);
+  \node[rot, above=1mm of pre] {$t_{\mathrm{pre}}$};
+  \node[rot, above=1mm of inf] {$t_{\mathrm{infer}}$};
+  \node[rot, above=1mm of pos] {$t_{\mathrm{post}}$};
+  \draw[decorate, decoration={brace, mirror, amplitude=3pt}] ([yshift=-1.5mm]pre.south west) -- ([yshift=-1.5mm]pos.south east)
+    node[midway, below=2.5mm, rot] {latência fim a fim na borda; nenhum quadro sai do dispositivo (CPU e memória medidas por quadro)};
+  % Nuvem
+  \node[font=\footnotesize\bfseries, anchor=east] at (-0.15,-2.25) {nuvem};
+  \node[disp] (q2) at (0.75,-2.25) {quadro\\(res. $\times$ res.)};
+  \node[caixa, right=of q2] (jpg) {codificação\\JPEG, qualidade 80};
+  \node[caixa, right=of jpg, densely dashed] (rede) {rede emulada (tc netem)\\RTT 40 ms, subida 10 Mbit/s};
+  \node[caixa, right=of rede, fill=gray!25] (srv) {servidor x86\\decod., pré, inferência FP32, pós};
+  \node[disp, right=of srv] (ret) {detecções\\(retorno)};
+  \draw[seta] (q2) -- (jpg); \draw[seta] (jpg) -- (rede); \draw[seta] (rede) -- (srv); \draw[seta] (srv) -- (ret);
+  \node[rot, below=1mm of jpg] {$t_{\mathrm{codif}}$; bytes $\to$ banda};
+  \node[rot, below=1mm of rede] {$t_{\mathrm{transm}}$ (ida) e $t_{\mathrm{retorno}}$};
+  \node[rot, below=1mm of srv] {$t_{\mathrm{servidor}}$};
+\end{tikzpicture}

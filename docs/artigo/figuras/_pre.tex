@@ -1,0 +1,33 @@
+% Preâmbulo das figuras do artigo, compiladas à parte em PDF (src/analysis/compilar_figuras.sh).
+% Mesmas fontes da classe da disciplina (Libertine + newtxmath, corpo de 10 pt) e as larguras reais
+% de coluna e de texto da classe, para o PDF entrar no artigo em tamanho natural, sem escala.
+\documentclass[10pt,border=1pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[tt=false,type1=true]{libertine}
+\usepackage[libertine]{newtxmath}
+\usepackage[brazil]{babel}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{arrows.meta,positioning,patterns,calc,fit,backgrounds,decorations.pathreplacing}
+\setlength{\columnwidth}{249.57481pt}
+\setlength{\textwidth}{512.14963pt}
+% Cor fixa por modelo (paleta Okabe-Ito); FP32 hachurado, INT8 sólido
+\definecolor{cYolo}{HTML}{0072B2}
+\definecolor{cSsd}{HTML}{E69F00}
+\definecolor{cEff}{HTML}{009E73}
+\pgfplotsset{dados/.style={
+  font=\footnotesize, tick label style={font=\footnotesize}, label style={font=\footnotesize},
+  legend style={font=\footnotesize, draw=none, fill=none,
+  legend columns=-1, /tikz/every even column/.append style={column sep=6pt}},
+  axis lines*=left, ymajorgrids, grid style={gray!20}, tick align=outside, major tick length=2pt,
+  every axis plot/.append style={line join=round}}}
+% Estilos dos diagramas (os mesmos das figuras da equipe, em figs/src/_pre.tex)
+\tikzset{
+  caixa/.style={draw,rounded corners=2pt,align=center,font=\footnotesize,minimum height=7mm,inner sep=2.5pt,fill=white},
+  disp/.style={caixa,fill=gray!12},
+  seta/.style={-{Stealth[length=2mm]},thick},
+  rot/.style={font=\scriptsize,align=center,inner sep=1pt},
+}
