@@ -1,8 +1,9 @@
-# Parâmetros do baseline de nuvem (E5). Nada aqui está decidido ainda:
-# protocolo, codec, valores de rede e hardware do servidor são a decisão em aberto D5.
-# Os scripts da E5 devem recusar rodar enquanto houver campo nulo.
-protocolo: null        # RTSP ou WebRTC (ATV 04)
-codec: null
-rtt_ms: null
-banda_subida_kbps: null
-servidor: null
+# Parâmetros do baseline de nuvem (E5), decisão D5 adotada em 16/11/2026 (a equipe pode rever).
+# ATENÇÃO: rtt_ms e banda_subida_kbps são VALORES ASSUMIDOS. A equipe precisa justificá-los com
+# uma fonte (relatório de banda larga residencial, por exemplo) antes de usar no artigo.
+protocolo: http-jpeg   # quadro a quadro, JPEG sobre TCP/HTTP (simplificação de RTSP/WebRTC: mantém o pareamento por quadro)
+codec: jpeg
+qualidade_jpeg: 80
+rtt_ms: 40             # assumido; aplicado com tc netem, metade em cada sentido
+banda_subida_kbps: 10000   # assumido; limite só no sentido cliente -> servidor
+servidor: contêiner linux/amd64 nativo no mesmo host (modelos FP32, 4 threads)

@@ -1,12 +1,19 @@
 # Matriz do experimento (ATV 04): 3 modelos x 2 precisões x 3 resoluções x 3 taxas = 54 cenários.
 # Não alterar sem confirmação da equipe. Usado a partir da E5.
-# ATENÇÃO: SSD-MobileNet V1 (300x300) e EfficientDet-Lite0 (320x320) têm entrada fixa.
-# Como a "resolução" se aplica a eles é a decisão em aberto D1 (docs/decisoes.md).
+# "resolucao" é a do quadro da fonte (D1, adotada em 16/11/2026): o YOLOv8n usa o modelo exportado
+# na mesma resolução; SSD-MobileNet V1 (300x300) e EfficientDet-Lite0 (320x320) redimensionam o quadro.
 fatores:
   modelo: [yolov8n, ssd_mobilenet_v1, efficientdet_lite0]
   precisao: [fp32, int8]
   resolucao: [320, 480, 640]
   fps_fonte: [5, 15, 30]
 amostragem:
-  inferencias_por_cenario: 1050
+  # Versão REDUZIDA da E5, decidida pela equipe em 16/11/2026 (veja D8 em docs/decisoes.md).
+  # Cada combinação modelo x precisão x resolução é medida UMA vez, em processo novo, com 350
+  # quadros (50 de aquecimento descartados + 300 válidos). Os cenários de 5, 15 e 30 FPS são
+  # DERIVADOS dessas medições (quadro i disponível em i/fps; fila; quadros que seriam descartados).
+  # O desenho original da ATV 04 previa 1.050 inferências em cada um dos 54 cenários.
+  modo: reduzido
+  quadros_por_combinacao: 350
   aquecimento_descartado: 50
+  cenarios_fps: derivados

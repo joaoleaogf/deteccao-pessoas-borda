@@ -1,0 +1,10 @@
+# Potência de referência para a energia ESTIMADA (decisão D7). energia_estimada_mj = potência x tempo.
+# Só preencha com um valor que tenha fonte verificável (artigo, datasheet ou medição publicada),
+# citada no campo "fonte". Enquanto potencia_w for nulo, a coluna energia_estimada_mj fica vazia.
+placas:
+  rpi4b:
+    potencia_w: null
+    fonte: null
+  rpi5:
+    potencia_w: null
+    fonte: null

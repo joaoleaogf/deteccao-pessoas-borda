@@ -25,6 +25,11 @@ RUN uv venv /opt/venv-tf \
  && uv pip install --python /opt/venv-tf/bin/python tensorflow==2.21.0 pillow pyyaml \
  && uv cache clean
 
+# E5/E6: pycocotools (mAP da classe pessoa) e iproute2 (tc netem no baseline de nuvem).
+RUN apt-get update && apt-get install -y --no-install-recommends iproute2 && rm -rf /var/lib/apt/lists/* \
+ && uv pip install --python /opt/venv-export/bin/python pycocotools==2.0.10 \
+ && uv cache clean
+
 # A Ultralytics grava configurações e baixa fontes; mantemos isso dentro do contêiner.
 ENV YOLO_CONFIG_DIR=/tmp/ultralytics PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /repo

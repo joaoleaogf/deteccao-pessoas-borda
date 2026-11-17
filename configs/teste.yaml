@@ -1,0 +1,16 @@
+# Conjunto de teste da E5 (decisão D6, adotada em 16/11/2026; a equipe pode rever).
+# Imagens do COCO val2017 que contêm pessoa, com as anotações da classe pessoa.
+# Seleção (src/prepare/montar_teste.py), sempre igual:
+#   - só imagens com pelo menos uma pessoa e nenhuma anotação de pessoa "iscrowd";
+#   - três grupos pelo número de pessoas: 1, 2 e 3 ou mais;
+#   - de cada grupo, as primeiras imagens por id (117, 117 e 116), juntas e ordenadas por id.
+# São 350 imagens = 350 quadros por combinação (50 de aquecimento + 300 válidos).
+# A lista final, com o sha256 de cada imagem, fica em configs/conjunto_teste.csv.
+anotacoes:
+  url: http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+  sha256: 113a836d90195ee1f884e704da6304dfaaecff1f023f49b6ca93c4aaae470268   # anotado por montar_teste.py
+  membro: annotations/instances_val2017.json
+url_imagens: http://images.cocodataset.org/val2017/
+categoria_pessoa: 1
+por_grupo: {"1": 117, "2": 117, "3+": 116}
+quadros_aquecimento: 50

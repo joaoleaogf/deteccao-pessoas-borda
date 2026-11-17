@@ -27,6 +27,11 @@ entrada do modelo" para dois dos três modelos.
 **Provisório na E4.** YOLOv8n em 320, 480 e 640; SSD em 300; EfficientDet em 320
 (`configs/models.yaml`, campo `resolucoes`). Isso serve a qualquer das três opções.
 
+**Adotado em 16/11/2026 (a equipe pode rever): opção 1.** "Resolução" é a do quadro da fonte (320, 480,
+640). O YOLOv8n usa o modelo exportado na mesma resolução; SSD (300) e EfficientDet (320) redimensionam o
+quadro para a entrada fixa, e esse custo entra no pré-processamento. Mantém os 54 cenários. O quadro da
+fonte é a imagem redimensionada para res × res (bilinear, sem manter a proporção).
+
 ## D2. O que conta como "INT8" no YOLOv8n
 
 **Fato verificado.** O export oficial da Ultralytics (`format="litert"`, `quantize=8`) deixa a
@@ -40,6 +45,9 @@ SSD e EfficientDet saem inteiros totais.
    ai-edge-quantizer. Atende ao critério, mas a qualidade (mAP) só será conhecida na E5.
 
 **Provisório na E4.** Opção 1, porque é o caminho documentado pela ferramenta.
+
+**Adotado em 16/11/2026 (a equipe pode rever): opção 1**, o INT8 oficial (híbrido) da Ultralytics.
+`configs/models.yaml` não muda. Consequência registrada na E4: o Edge TPU Compiler recusa esse modelo.
 
 ## D3. Conjunto de calibração
 
@@ -65,6 +73,33 @@ Falta escolher as sequências (COCO ou PASCAL VOC) e saber se as gravações res
 ## D7. Potência de referência para a energia estimada (E5)
 
 Falta escolher a fonte da literatura e o valor de potência de cada placa.
+
+## Decisões adotadas para a E5 (16/11/2026; a equipe pode rever)
+
+- **D4.** A coleta roda só no perfil `rpi4b` (`--cpus=4 --memory=4g`). Sob QEMU os perfis `rpi4b` e
+  `rpi5` não diferem em velocidade (o emulador não reproduz o processador), então duplicar a execução
+  não traria informação. As variantes de memória continuam como em `configs/profiles.yaml`.
+- **D5.** Baseline de nuvem com dois contêineres numa rede Docker. O cliente só codifica e envia: JPEG
+  qualidade 80 por quadro, sobre TCP/HTTP, quadro a quadro (simplificação declarada em relação a
+  RTSP/WebRTC, para manter o pareamento por quadro). Enlace com `tc netem`: RTT 40 ms (20 ms em cada
+  sentido) e subida de 10 Mbps. **Esses dois valores são assumidos** e a equipe precisa justificá-los
+  com fonte (`configs/network.yaml`). Servidor linux/amd64 nativo, mesmos modelos FP32 e resoluções.
+- **D6.** Conjunto de teste: imagens do COCO val2017 que contêm pessoa, sem anotação de multidão,
+  balanceadas entre 1, 2 e 3+ pessoas, ordenadas por id, com as anotações da classe pessoa
+  (`configs/teste.yaml`, lista e sha256 em `configs/conjunto_teste.csv`; imagens fora do git). Não há
+  gravações residenciais: limitação a declarar no artigo.
+- **D7.** Potência de referência por placa em `configs/energia.yaml`, com campo de fonte. Enquanto não
+  houver valor com fonte verificável, o campo fica nulo e a energia não é calculada.
+- **D8. Amostragem reduzida (altera o desenho da ATV 04).** No lugar de 54 cenários × 1.050 inferências,
+  cada uma das 18 combinações modelo × precisão × resolução é medida uma única vez, em processo novo, com
+  350 quadros (50 de aquecimento descartados + 300 válidos). Os cenários de 5, 15 e 30 FPS são derivados
+  dessas medições (quadro i disponível em i/fps, fila e quadros que seriam descartados) e ficam marcados
+  como derivados. Motivo: o teste de fumaça indica cerca de 50 h de emulação no desenho original contra
+  cerca de 5 h no reduzido, e a taxa da fonte não muda o tempo de inferência de cada quadro. O baseline
+  de nuvem usa as mesmas 350 imagens por combinação. Decisão da equipe em 16/11/2026.
+- **Métricas de qualidade.** mAP@50 da classe pessoa (pycocotools) e precisão, revocação e F1 com
+  limiar de pontuação 0,5 e IoU 0,5, calculados das detecções salvas na própria coleta. NMS igual para
+  os três modelos: IoU 0,5, pontuação mínima 0,01, até 100 detecções por quadro.
 
 ## Escolhas técnicas feitas na E4 (para a equipe saber defender)
 
