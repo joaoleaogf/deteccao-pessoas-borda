@@ -6,7 +6,8 @@ Local em Câmeras de Smart Home" (Equipe 5, XRSC10, UNIFEI 2026.2).
 O contexto completo fica em `docs/CONTEXTO.md` (exporte o documento da equipe para lá).
 As decisões que a equipe ainda precisa tomar estão em `docs/decisoes.md`.
 
-**Situação:** etapa E4 implementada. E5 (coleta) e E6 (análise) ainda não começaram.
+**Situação:** E4 concluída. E5 (coleta) e E6 (análise) implementadas; o andamento da coleta e os
+resultados estão em `results/RESUMO.md`. O plano da E5 está em `docs/plano_e5.md`.
 
 **Aviso sobre os números.** O contêiner ARM64 é emulado por QEMU. Ele limita núcleos e
 memória, mas não reproduz a velocidade de um Raspberry Pi. Nenhum tempo gerado na E4 é
@@ -81,13 +82,56 @@ Os três INT8 são calibrados com as mesmas 128 imagens (COCO128), na mesma orde
 | INT8 com entrada, saída e pesos em inteiros, conferido por script | `results/modelos.csv`, coluna `inteiro_total` |
 | Um único comando refaz a etapa do zero | `e4.sh --do-zero` ou `e4.ps1 -DoZero` |
 
+## E5: coleta
+
+```powershell
+.\e5.ps1 [-Precisao int8|fp32|todas] [-SoPreparar]
+```
+
+```bash
+./e5.sh [--precisao int8|fp32|todas] [--so-preparar]
+```
+
+| Passo | Onde roda | Script | O que gera |
+|---|---|---|---|
+| 1 | host | `e5.ps1` / `e5.sh` | imagens `borda-prep` e `borda-arm64` |
+| 2 | `borda-prep` | `src/prepare/montar_teste.py` | `configs/conjunto_teste.csv`, `data/teste_coco/` (350 imagens COCO val2017 com pessoa) |
+| 2 | `borda-prep` | `src/eval/validar_decodificadores.py` | `results/e5/validacao_decodificadores.csv` (mAP@50 no x86 nativo) |
+| 3 | 2 contêineres `borda-prep` + `tc netem` | `src/nuvem/servidor.py`, `src/nuvem/cliente.py` | `results/e5/nuvem/<combinação>/` |
+| 4 | `borda-arm64` (QEMU, `cortex-a72`) | `src/bench/coletar_borda.py` → `medir_borda.py` | `results/e5/borda/<combinação>/` |
+
+Os passos 3 e 4 rodam em segundo plano (`docker logs -f e5-borda`, `docker logs -f e5-nuvem`) e são
+retomáveis: combinação com o arquivo `COMPLETO` não roda de novo. Cada combinação tem `quadros.csv`
+(tempos por quadro), `deteccoes.json` e `manifesto.json` (data, versões, perfil, sha256 do modelo, rede).
+A amostragem é a reduzida (decisão D8): 18 combinações na borda e 9 na nuvem, 350 quadros cada, com os
+cenários de 5, 15 e 30 FPS derivados na E6. O computador precisa ficar ligado durante a coleta.
+
+## E6: análise
+
+```powershell
+.\e6.ps1
+```
+
+```bash
+./e6.sh
+```
+
+| Script | O que gera |
+|---|---|
+| `src/analysis/derivar_cenarios.py` | `results/e5/cenarios/`, `results/summary.csv`, `results/e5/qualidade.csv` |
+| `src/analysis/estatistica.py` | `results/stats/`, `figures/*.pdf` e `*.png`, `results/RESUMO.md` |
+| `src/analysis/artigo_tex.py` | `docs/artigo/tabelas/*.tex`, `docs/artigo/numeros.tex` |
+
+A análise é determinística e pode rodar com a coleta incompleta (usa as combinações concluídas).
+O rascunho das seções do artigo está em `docs/artigo/`; os números do texto vêm de `numeros.tex`.
+
 ## Estrutura
 
 ```
 configs/    models.yaml (origens e hashes), profiles.yaml, scenarios.yaml, network.yaml
 docker/     Dockerfile.host (preparação), Dockerfile.edgetpu (compilador), Dockerfile.arm64 (medição)
 docs/       ambiente.md (gerado), decisoes.md
-src/        comum.py, prepare/ (E4), bench/ (E4 e E5), eval/ (E5), analysis/ (E6)
+src/        comum.py, prepare/ (E4 e E5), bench/ (E4 e E5), nuvem/ (E5), eval/ (E5), analysis/ (E6)
 models/     arquivos .tflite (fora do git; gerados pelo passo 2)
 data/       calibração e imagem de teste (fora do git; baixados pelo passo 2)
 results/    CSVs e relatórios
