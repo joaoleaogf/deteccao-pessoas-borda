@@ -1,15 +1,18 @@
-% Rascunho da seção de metodologia (abordagem emulada). Texto final com a equipe.
+% Rascunho da seção de metodologia. Texto final com a equipe.
 % Números vêm de \input{numeros.tex} (gerado por src/analysis/artigo_tex.py); não digite valores à mão.
 \section{Metodologia}
 \label{sec:metodologia}
 
 \subsection{Caracterização}
-Trata-se de uma pesquisa experimental conduzida por emulação. Sem acesso ao hardware físico
-(Raspberry Pi 4/5 e acelerador Coral Edge TPU), o dispositivo de borda é representado por um
-contêiner Docker \texttt{linux/arm64} executado no x86-64 por meio do emulador QEMU, limitado a
-4 núcleos e 4\,GB de memória (perfil do Raspberry Pi~4B) e com o modelo de processador
-Cortex-A72 (\texttt{QEMU\_CPU=cortex-a72}). Todo o código, as versões fixadas das ferramentas e os
-dados brutos estão no repositório do experimento, e cada etapa é refeita com um único comando.
+Trata-se de uma pesquisa experimental. Sem acesso ao hardware físico (Raspberry Pi 4/5 e acelerador
+Coral Edge TPU), o dispositivo de borda é representado por um contêiner Docker \texttt{linux/arm64}
+executado de forma nativa em uma máquina virtual ARM64 da Oracle Cloud (VM.Standard.A1.Flex, processador
+Ampere com núcleos Neoverse-N1), com 2 núcleos e 12\,GB de memória. Uma primeira tentativa por emulação
+(QEMU no x86-64) foi abandonada porque, sob o emulador, a biblioteca Python do LiteRT mostrou-se cerca de
+dez vezes mais lenta que a ferramenta nativa \texttt{benchmark\_model}, o que tornaria a coleta inviável
+no prazo; as medições parciais emuladas foram mantidas apenas como anexo. Todo o código, as versões
+fixadas das ferramentas e os dados brutos estão no repositório do experimento, e cada etapa é refeita
+com um único comando.
 
 \subsection{Modelos e quantização}
 Foram avaliados três detectores leves pré-treinados no COCO: YOLOv8n (Ultralytics), SSD-MobileNet~V1
@@ -27,15 +30,14 @@ quadro entregue pela câmera: o YOLOv8n usa o modelo exportado na mesma resoluç
 SSD-MobileNet~V1 (entrada fixa de $300\times300$) e o EfficientDet-Lite0 ($320\times320$) redimensionam o
 quadro, e esse custo entra no pré-processamento.
 
-Por restrição de tempo de emulação, o desenho original (1.050 inferências em cada cenário) foi
-reduzido por decisão da equipe: cada uma das 18 combinações modelo $\times$ precisão $\times$ resolução
-foi medida uma única vez, em processo novo, com 350 quadros, dos quais os 50 primeiros foram
-descartados como aquecimento (\nQuadrosValidos{} quadros válidos). Como a taxa da fonte não altera o
-tempo de processamento de cada quadro, os cenários de 5, 15 e 30 FPS foram derivados dessas
-medições: o quadro $k$ fica disponível em $k/\text{fps}$, o processamento começa quando o quadro está
-disponível e o anterior terminou, e a espera é registrada como tempo de fila, separada da latência
-fim a fim. Também se contabilizam os quadros que uma política de descarte (processar sempre o
-quadro mais recente) deixaria de processar.
+Por restrição de tempo, o desenho original (1.050 inferências em cada cenário) foi reduzido por decisão
+da equipe: cada uma das 18 combinações modelo $\times$ precisão $\times$ resolução foi medida uma única
+vez, em processo novo, com 350 quadros, dos quais os 50 primeiros foram descartados como aquecimento
+(\nQuadrosValidos{} quadros válidos). Como a taxa da fonte não altera o tempo de processamento de cada
+quadro, os cenários de 5, 15 e 30 FPS foram derivados dessas medições: o quadro $k$ fica disponível em
+$k/\text{fps}$, o processamento começa quando o quadro está disponível e o anterior terminou, e a espera é
+registrada como tempo de fila, separada da latência fim a fim. Também se contabilizam os quadros que uma
+política de descarte (processar sempre o quadro mais recente) deixaria de processar.
 
 \subsection{Conjunto de teste e qualidade}
 O conjunto de teste tem 350 imagens do COCO val2017 com pessoas, sem anotações de multidão,
@@ -48,7 +50,7 @@ parâmetros para os três modelos, e foram validadas no x86 antes da coleta.
 
 \subsection{Métricas de desempenho}
 Para cada quadro são registrados o tempo de pré-processamento, de inferência
-(\texttt{Interpreter.invoke}, 4 threads) e de pós-processamento, cuja soma é a latência fim a fim, além
+(\texttt{Interpreter.invoke}, 2 threads) e de pós-processamento, cuja soma é a latência fim a fim, além
 do uso de CPU do processo e da memória residente. A taxa sustentável é o inverso da latência média.
 A energia por quadro seria estimada pelo produto entre a potência de referência da placa e a latência,
 mas não foi calculada por falta de um valor de potência com fonte verificável.
@@ -69,10 +71,10 @@ o teste de Shapiro-Wilk às diferenças e, conforme o resultado, o teste $t$ par
 com $\alpha = 0{,}05$.
 
 \subsection{Limitações}
-Os tempos de borda vêm de emulação e não representam a velocidade de um Raspberry Pi: servem para
-comparações relativas (FP32 $\times$ INT8, entre modelos e resoluções). Além disso, sob o QEMU a
-biblioteca Python do LiteRT mostrou-se cerca de dez vezes mais lenta que a ferramenta nativa
-\texttt{benchmark\_model}. A comparação absoluta entre a latência da borda emulada e a da nuvem nativa
-não é válida; o resultado da QP2 é a banda de subida. Os cenários de taxa da fonte são derivados, a
-rede da nuvem usa valores assumidos, não há gravações residenciais e o Edge TPU foi avaliado apenas
-pelo relatório do compilador.
+Os tempos de borda vêm de um núcleo ARM de servidor (Neoverse-N1), mais rápido que o Cortex-A72 do
+Raspberry Pi~4, e de 2 núcleos em vez de 4: servem para comparações relativas (FP32 $\times$ INT8, entre
+modelos e resoluções) em ARM64 real, não como tempo absoluto de um Raspberry Pi. Pelo mesmo motivo, a
+latência da borda não é comparada em valor absoluto com a da nuvem; o resultado da QP2 é a banda de
+subida. A memória residente medida inclui os quadros da fonte pré-carregados, que são descontados na
+análise. Os cenários de taxa da fonte são derivados, a rede da nuvem usa valores assumidos, não há
+gravações residenciais e o Edge TPU foi avaliado apenas pelo relatório do compilador.

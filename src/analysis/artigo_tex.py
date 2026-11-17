@@ -107,6 +107,11 @@ def main() -> None:
            "Servidor ARM com 2 núcleos: os tempos servem para comparação relativa, não representam um Raspberry Pi. "
            "300 quadros válidos por combinação.")
 
+    for l in summary:
+        if l["parte"] == "borda":
+            k = f"{MAC_M[l['modelo']]}{MAC_P[l['precisao']]}{MAC_R[l['resolucao_fonte']]}{MAC_F[l['fps_fonte']]}"
+            macros[f"desc{k}"] = br(float(l["taxa_descarte_se_ocupado"]) * 100, 0)
+
     # Nuvem
     linhas = []
     for l in [l for l in s15 if l["parte"] == "nuvem"]:

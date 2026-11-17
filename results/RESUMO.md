@@ -9,7 +9,7 @@ Combinações medidas: borda 18 de 18; nuvem 9 de 9. Cenários em `results/summa
 - Tempos de borda medidos em ARM64 nativo (VM Oracle A1, Neoverse-N1, 2 núcleos); não representam um Raspberry Pi.
 - **Amostragem reduzida (decisão D8, altera o desenho da ATV 04):** cada combinação modelo × precisão × resolução foi medida uma vez, com 350 quadros (50 de aquecimento + 300 válidos). Os cenários de 5, 15 e 30 FPS são **derivados** dessas medições (quadro i disponível em i/fps), não medidos em execução própria.
 - A latência borda × nuvem compara um servidor ARM de 2 núcleos com um servidor x86 e **não representa um Raspberry Pi**. O resultado sólido da QP2 é a **banda de subida**: a nuvem precisa enviar o vídeo; a borda não envia nenhum quadro.
-- Nuvem: rede emulada com `tc netem` (RTT 40 ms, subida 10 Mbit/s): valores assumidos que a equipe precisa justificar com fonte. Executada em paralelo com a coleta da borda.
+- Nuvem: rede emulada com `tc netem` (RTT 40 ms, subida 10 Mbit/s): valores assumidos que a equipe precisa justificar com fonte. Executada no PC ao mesmo tempo que a coleta emulada da borda, depois substituída (D10).
 - Memória: `rss_mb_max` inclui os 350 quadros da fonte pré-carregados; `rss_mb_max_sem_quadros` desconta esse volume (350 × res × res × 3 bytes).
 - Energia: não calculada (sem potência de referência com fonte verificável em `configs/energia.yaml`).
 
