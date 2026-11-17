@@ -46,15 +46,18 @@ def br(v, casas: int = 1) -> str:
 
 
 def tabela(nome: str, legenda: str, cabecalho: list[str], linhas: list[list[str]], alinhamento: str,
-           nota: str = "") -> None:
-    corpo = [r"\begin{table}[htbp]", r"\centering", r"\footnotesize", rf"\caption{{{legenda}}}",
+           nota: str = "", larga: bool = False) -> None:
+    """larga=True usa table* (ocupa as duas colunas do template do artigo)."""
+    amb = "table*" if larga else "table"
+    tamanho = [r"\footnotesize"] if larga else [r"\scriptsize", r"\setlength{\tabcolsep}{3pt}"]
+    corpo = [rf"\begin{{{amb}}}[htbp]", r"\centering", *tamanho, rf"\caption{{{legenda}}}",
              rf"\label{{tab:{nome}}}", rf"\begin{{tabular}}{{{alinhamento}}}", r"\hline",
              " & ".join(cabecalho) + r" \\", r"\hline"]
     corpo += [" & ".join(l) + r" \\" for l in linhas] or [r"\multicolumn{" + str(len(cabecalho)) + r"}{c}{(sem dados)} \\"]
     corpo += [r"\hline", r"\end{tabular}"]
     if nota:
         corpo += [rf"\par\smallskip\parbox{{0.95\linewidth}}{{\scriptsize {nota}}}"]
-    corpo += [r"\end{table}", ""]
+    corpo += [rf"\end{{{amb}}}", ""]
     (SAIDA / "tabelas").mkdir(parents=True, exist_ok=True)
     (SAIDA / "tabelas" / f"{nome}.tex").write_text("% Gerado por src/analysis/artigo_tex.py. Não edite à mão.\n"
                                                    + "\n".join(corpo), encoding="utf-8")
@@ -93,7 +96,11 @@ def main() -> None:
             cel = lambda l: (f"{br(l['t_e2e_ms_media'], 1)} [{br(l['t_e2e_ms_ic95_inf'], 1)}; "  # noqa: E731
                              f"{br(l['t_e2e_ms_ic95_sup'], 1)}]") if l else "--"
             razao = br(float(fp["t_e2e_ms_media"]) / float(it["t_e2e_ms_media"]), 1) if (fp and it) else "--"
-            linhas.append([NOMES[m], r, cel(fp), cel(it), razao])
+            t = next((t for t in testes if t["modelo"] == m and t["resolucao_fonte"] == r
+                      and t["metrica"] == "t_e2e_ms"), None)
+            teste = (("W" if t["teste"].startswith("Wilcoxon") else "t") + ", "
+                     + ("< 0,001" if float(t["p_valor"]) < 0.001 else br(t["p_valor"], 3))) if t else "--"
+            linhas.append([NOMES[m], r, cel(fp), cel(it), razao, teste])
             for l in (fp, it):
                 if l:
                     k = f"{MAC_M[m]}{MAC_P[l['precisao']]}{MAC_R[r]}"
@@ -103,9 +110,10 @@ def main() -> None:
                     macros[f"rss{k}"] = br(l.get("rss_mb_max_sem_quadros"), 0)
             macros[f"razao{MAC_M[m]}{MAC_R[r]}"] = razao
     tabela("latencia_borda", "Latência fim a fim por quadro na borda (ms; média e IC 95\\%), ARM64 nativo (VM Oracle A1, Neoverse-N1, 2 núcleos).",
-           ["Modelo", "Resolução", "FP32", "INT8", "FP32/INT8"], linhas, "llccr",
+           ["Modelo", "Resolução", "FP32", "INT8", "FP32/INT8", "Teste, $p$"], linhas, "llccrl",
            "Servidor ARM com 2 núcleos: os tempos servem para comparação relativa, não representam um Raspberry Pi. "
-           "300 quadros válidos por combinação.")
+           "300 quadros válidos por combinação. Teste pareado FP32 $\\times$ INT8 escolhido pelo Shapiro-Wilk "
+           "nas diferenças: W = Wilcoxon, t = $t$ pareado ($\\alpha = 0{,}05$).", larga=True)
 
     for l in summary:
         if l["parte"] == "borda":
@@ -127,7 +135,7 @@ def main() -> None:
     tabela("nuvem", "Baseline de nuvem: latência média por quadro (ms), tamanho do quadro JPEG (kB) e banda de subida (Mbit/s) por taxa da fonte.",
            ["Modelo", "Res.", "e2e", "Transm.", "Infer.", "kB/quadro", "5 FPS", "15 FPS", "30 FPS"], linhas,
            "llrrrrrrr", "Rede emulada com tc netem (RTT 40 ms, subida 10 Mbit/s, valores assumidos); servidor x86-64 nativo. "
-           "Na borda nenhum quadro de vídeo é enviado.")
+           "Na borda nenhum quadro de vídeo é enviado.", larga=True)
 
     # Testes FP32 x INT8
     linhas = []
@@ -137,7 +145,7 @@ def main() -> None:
         linhas.append([NOMES[t["modelo"]], t["resolucao_fonte"], t["n_pares"], br(t["shapiro_p"], 3), t["teste"],
                        "< 0,001" if float(t["p_valor"]) < 0.001 else br(t["p_valor"], 3)])
     tabela("testes_fp32_int8", "Testes pareados da latência fim a fim FP32 $\\times$ INT8 na borda (Shapiro-Wilk nas diferenças; $\\alpha = 0{,}05$).",
-           ["Modelo", "Res.", "Pares", "Shapiro $p$", "Teste", "$p$"], linhas, "llrrlr")
+           ["Modelo", "Res.", "Pares", "Shapiro $p$", "Teste", "$p$"], linhas, "llrrlr", larga=True)
 
     # Edge TPU
     linhas = [[NOMES[e["modelo"]], e["resolucao"], "sim" if e["compilou"] == "True" else "não",

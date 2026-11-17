@@ -7,3 +7,5 @@ results/raw/
 __pycache__/
 *.pyc
 .venv/
+# Artigo montado no template (o template não é redistribuído; veja src/analysis/montar_overleaf.py)
+build/

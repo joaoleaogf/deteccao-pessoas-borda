@@ -1,0 +1,39 @@
+\section{Introdução}
+\label{introducao}
+
+Câmeras de segurança e de monitoramento passaram a fazer parte das casas inteligentes (\textit{smart homes}). Na maioria dos produtos, a câmera envia o vídeo continuamente para um serviço em nuvem, onde a detecção de pessoas é feita. Esse arranjo consome banda de subida de forma permanente, adiciona o atraso da rede à resposta e coloca imagens do interior da casa em servidores de terceiros. A alternativa é processar o vídeo no próprio dispositivo, na chamada borda (\textit{edge}), e enviar apenas o resultado da detecção. Este trabalho se limita à detecção da classe pessoa em imagens estáticas tratadas como quadros de vídeo, com modelos pré-treinados e sem treinamento adicional.
+
+\subsection{Problema e questões de pesquisa}
+
+O problema investigado é como detectar pessoas no vídeo de câmeras residenciais em dispositivos de borda com recursos limitados, mantendo precisão e tempo de resposta aceitáveis, sem enviar o vídeo continuamente para a nuvem. A busca sistemática feita pela equipe \pendente{descrever: 3 strings, 4 bases, 3.362 registros, 7 trabalhos-chave; ver Seção~\ref{referencial}} indicou que nenhum dos trabalhos analisados mede latência e banda no mesmo fluxo de vídeo, e que os testes publicados não isolam a classe pessoa em ambiente residencial. Daí as duas questões de pesquisa:
+
+\begin{itemize}
+    \item \textbf{QP1 (desempenho na borda):} qual é o desempenho (taxa de quadros, latência, precisão, uso de CPU e memória) de modelos leves de detecção de pessoas em dispositivos de borda de baixo custo?
+    \item \textbf{QP2 (borda $\times$ nuvem):} quais são os ganhos de latência e de consumo de banda ao processar o vídeo localmente, em vez de enviá-lo para a nuvem?
+\end{itemize}
+
+As hipóteses testadas são: \textbf{H1}, a quantização INT8 reduz a latência fim a fim por quadro em relação ao FP32 sem queda relevante de mAP@50 da classe pessoa; e \textbf{H2}, processar na borda elimina a banda de subida de vídeo que a nuvem exige, e essa banda cresce com a resolução e a taxa da câmera. \pendente{conferir com as hipóteses da proposta da equipe}
+
+\subsection{Justificativa}
+
+Se a detecção local atingir taxa e precisão próximas das da nuvem, a câmera passa a enviar só eventos, o que reduz o tráfego da casa e mantém as imagens no dispositivo. A literatura já aponta a quantização INT8 como o principal recurso para aproximar modelos leves do tempo real \pendente{citar T2}, mas os resultados disponíveis usam conjuntos e plataformas diferentes entre si, o que impede comparar modelos, precisões e o custo de rede sob as mesmas condições.
+
+\subsection{Objetivos}
+
+O objetivo geral é medir, sob as mesmas condições e com o mesmo conjunto de quadros, se a detecção de pessoas na borda com modelos leves sustenta taxas de câmera residencial e quanto de banda de subida ela evita em relação ao processamento em nuvem. Os objetivos específicos, entendidos como resultados verificáveis, são:
+
+\begin{enumerate}
+    \item uma comparação pareada da latência fim a fim de três detectores em FP32 e INT8, em três resoluções, com teste estatístico;
+    \item a qualidade (mAP@50 e F1) da classe pessoa de cada combinação, no mesmo conjunto de imagens;
+    \item a taxa de quadros sustentável de cada combinação e a fração de quadros que seria descartada a 5, 15 e 30 FPS;
+    \item a banda de subida necessária para levar o mesmo vídeo à nuvem em cada resolução e taxa;
+    \item a compatibilidade dos modelos INT8 com o acelerador Edge TPU, segundo o compilador oficial.
+\end{enumerate}
+
+\subsection{Limitações}
+
+Sem acesso ao hardware físico, a borda foi medida em um processador ARM64 de servidor com 2 núcleos, e não em um Raspberry Pi; o Edge TPU foi avaliado só pelo relatório do compilador; a rede da nuvem foi emulada com valores assumidos de atraso e banda; a energia não foi calculada por falta de potência de referência com fonte verificável; e os cenários de taxa de câmera foram derivados de uma única medição por combinação. Essas limitações são retomadas na Seção~\ref{resultados}.
+
+\subsection{Estrutura do texto}
+
+A Seção~\ref{referencial} apresenta os conceitos e os trabalhos relacionados; a Seção~\ref{desenvolvimento} descreve o método e o ambiente experimental; a Seção~\ref{resultados} apresenta e discute os resultados; e a Seção~\ref{conclusoes} conclui e indica trabalhos futuros.
