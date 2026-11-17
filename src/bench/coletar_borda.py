@@ -24,6 +24,8 @@ def main() -> None:
     ap.add_argument("--perfil", default="rpi4b")
     ap.add_argument("--quadros", type=int, default=None, help="teste curto: limita os quadros")
     ap.add_argument("--precisao", choices=["fp32", "int8"], default=None, help="roda só uma precisão")
+    ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--ambiente", default="emulado (QEMU)", help="descrição registrada no manifesto")
     ap.add_argument("--saida", type=Path, default=RESULTS / "e5" / "borda")
     args = ap.parse_args()
 
@@ -43,7 +45,8 @@ def main() -> None:
         with open(log, "a", encoding="utf-8") as lg:
             lg.write(f"{agora} início {pasta.name}\n")
         cmd = [sys.executable, str(Path(__file__).parent / "medir_borda.py"), "--modelo", m, "--precisao", p,
-               "--res", str(r), "--perfil", args.perfil, "--saida", str(args.saida)]
+               "--res", str(r), "--perfil", args.perfil, "--saida", str(args.saida),
+               "--threads", str(args.threads), "--ambiente", args.ambiente]
         if args.quadros:
             cmd += ["--quadros", str(args.quadros)]
         rc = subprocess.run(cmd).returncode

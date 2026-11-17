@@ -4,13 +4,13 @@ O que faz: carrega os 350 quadros do conjunto de teste já redimensionados para 
 fonte (fora da medição: é o quadro que a câmera entregaria) e processa um quadro depois do outro,
 sem ritmo de câmera. Para cada quadro mede, com time.perf_counter:
   t_pre_ms    quadro da fonte -> tensor de entrada (redimensionar se preciso, normalizar, quantizar)
-  t_infer_ms  Interpreter.invoke() do LiteRT (4 threads)
+  t_infer_ms  Interpreter.invoke() do LiteRT (--threads, padrão 4)
   t_post_ms   saída bruta -> detecções de pessoa (decodificação + NMS)
   t_e2e_ms    soma dos três
 e também o uso de CPU do processo (tempo de CPU / tempo de parede, em %, pode passar de 100 com
 várias threads; lido com resource.getrusage, porque o psutil devolve zero sob o QEMU) e a memória residente (RSS). Os 50 primeiros quadros são marcados como aquecimento.
 Os cenários de 5, 15 e 30 FPS NÃO são medidos aqui: são derivados depois (src/analysis).
-Os tempos são de ambiente EMULADO (QEMU) e não representam um Raspberry Pi.
+O ambiente (emulado pelo QEMU ou ARM64 nativo) fica no manifesto; nenhum dos dois é um Raspberry Pi.
 
 O que gera, em results/e5/borda/<modelo>_<precisao>_<res>/:
   quadros.csv       uma linha por quadro
@@ -42,6 +42,19 @@ from deteccao import (LIMIAR_IOU_NMS, LIMIAR_PONTUACAO, MAX_DETECCOES, Detector,
                       quadro_da_fonte, resolucao_entrada)
 
 
+def descrever_cpu() -> str:
+    """Modelo de CPU como o sistema informa (lscpu; em ARM o 'Model name' vem do código da peça)."""
+    import subprocess
+
+    try:
+        saida = subprocess.run(["lscpu"], capture_output=True, text=True, timeout=10).stdout
+        campos = [l.strip() for l in saida.splitlines() if l.split(":")[0].strip() in
+                  ("Architecture", "Vendor ID", "Model name", "CPU(s)", "Thread(s) per core", "BogoMIPS")]
+        return "; ".join(campos)
+    except (OSError, subprocess.SubprocessError):
+        return ""
+
+
 def lista_teste() -> list[dict]:
     with open(RAIZ / "configs" / "conjunto_teste.csv", encoding="utf-8") as f:
         return list(csv.DictReader(f))
@@ -54,6 +67,8 @@ def main() -> None:
     ap.add_argument("--res", required=True, type=int, choices=[320, 480, 640])
     ap.add_argument("--perfil", default="rpi4b", help="perfil de configs/profiles.yaml (só registrado)")
     ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--ambiente", default="emulado (QEMU)",
+                    help="descrição registrada no manifesto, ex.: \"ARM64 nativo (Oracle A1, Neoverse-N1)\"")
     ap.add_argument("--quadros", type=int, default=None, help="limita o número de quadros (teste curto)")
     ap.add_argument("--saida", type=Path, default=RESULTS / "e5" / "borda")
     args = ap.parse_args()
@@ -97,7 +112,7 @@ def main() -> None:
             "deteccoes": len(d_),
         })
         if i % 25 == 0:
-            print(f"  quadro {i}: e2e {linhas[-1]['t_e2e_ms']:.0f} ms (emulado)", flush=True)
+            print(f"  quadro {i}: e2e {linhas[-1]['t_e2e_ms']:.0f} ms ({args.ambiente})", flush=True)
 
     with open(pasta / "quadros.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(linhas[0]))
@@ -115,7 +130,7 @@ def main() -> None:
         "qemu_cpu": os.environ.get("QEMU_CPU", "(padrão do emulador)"),
         "cpus_visiveis": os.cpu_count(), "nms": {"iou": LIMIAR_IOU_NMS, "pontuacao_min": LIMIAR_PONTUACAO,
                                                 "max_deteccoes": MAX_DETECCOES},
-        "ambiente": "emulado (QEMU)" if platform.machine() == "aarch64" else "nativo",
+        "ambiente": args.ambiente, "kernel": platform.release(), "cpu": descrever_cpu(),
     }
     (pasta / "manifesto.json").write_text(json.dumps(manifesto, indent=2, ensure_ascii=False), encoding="utf-8")
     (pasta / "COMPLETO").write_text(manifesto["fim_utc"], encoding="utf-8")
