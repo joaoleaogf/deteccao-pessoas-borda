@@ -13,6 +13,10 @@ resultados estão em `results/RESUMO.md`. O plano da E5 está em `docs/plano_e5.
 memória, mas não reproduz a velocidade de um Raspberry Pi. Nenhum tempo gerado na E4 é
 resultado do experimento: são testes de funcionamento.
 
+**Demonstração no macOS.** Para rodar sem Docker num Mac com Apple Silicon (quantização, mAP,
+latência e detecção ao vivo na webcam): `bash scripts/setup_macos.sh` e depois `bash demo/roteiro.sh`.
+Passo a passo em `docs/demo-macos.md`.
+
 ## Pré-requisitos
 
 - Docker com emulação ARM64. O Docker Desktop (Windows, macOS) já traz o QEMU. Em Linux puro,
@@ -148,7 +152,10 @@ O rascunho das seções do artigo está em `docs/artigo/`; os números do texto 
 ```
 configs/    models.yaml (origens e hashes), profiles.yaml, scenarios.yaml, network.yaml
 docker/     Dockerfile.host (preparação), Dockerfile.edgetpu (compilador), Dockerfile.arm64 (medição)
-docs/       ambiente.md (gerado), decisoes.md
+docs/       ambiente.md (gerado), decisoes.md, demo-macos.md
+demo/       demonstração em aula no macOS (roteiro.sh, demo_ao_vivo.py, etapas.py)
+scripts/    setup_macos.sh (instalação sem Docker no macOS)
+requirements/  versões exatas dos ambientes do macOS
 src/        comum.py, prepare/ (E4 e E5), bench/ (E4 e E5), nuvem/ (E5), eval/ (E5), analysis/ (E6)
 models/     arquivos .tflite (fora do git; gerados pelo passo 2)
 data/       calibração e imagem de teste (fora do git; baixados pelo passo 2)

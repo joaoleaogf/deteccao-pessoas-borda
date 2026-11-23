@@ -7,6 +7,11 @@ results/raw/
 __pycache__/
 *.pyc
 .venv/
+# Ambientes do macOS criados por scripts/setup_macos.sh e medições locais da demonstração
+.venv-uv/
+.venv-export/
+.venv-tf/
+results/mac/
 # Artigo montado no template (o template não é redistribuído; veja src/analysis/montar_overleaf.py)
 build/
 
