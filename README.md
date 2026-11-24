@@ -15,7 +15,7 @@ resultado do experimento: são testes de funcionamento.
 
 **Demonstração no macOS.** Para rodar sem Docker num Mac com Apple Silicon (quantização, mAP,
 latência e detecção ao vivo na webcam): `bash scripts/setup_macos.sh` e depois `bash demo/roteiro.sh`.
-Passo a passo em `docs/demo-macos.md`.
+Passo a passo em `docs/demo-macos.md`; notas para a apresentação em `docs/guia-apresentacao.md`.
 
 ## Pré-requisitos
 
@@ -152,7 +152,7 @@ O rascunho das seções do artigo está em `docs/artigo/`; os números do texto 
 ```
 configs/    models.yaml (origens e hashes), profiles.yaml, scenarios.yaml, network.yaml
 docker/     Dockerfile.host (preparação), Dockerfile.edgetpu (compilador), Dockerfile.arm64 (medição)
-docs/       ambiente.md (gerado), decisoes.md, demo-macos.md
+docs/       ambiente.md (gerado), decisoes.md, demo-macos.md, guia-apresentacao.md
 demo/       demonstração em aula no macOS (roteiro.sh, demo_ao_vivo.py, etapas.py)
 scripts/    setup_macos.sh (instalação sem Docker no macOS)
 requirements/  versões exatas dos ambientes do macOS

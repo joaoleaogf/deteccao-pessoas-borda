@@ -8,6 +8,8 @@ Os números que aparecem na demonstração são medidos na hora, neste Mac, ou l
 resultados do repositório (`results/e5/`). **Os tempos do Mac não substituem os do artigo**, que
 foram medidos num servidor ARM64 Neoverse-N1 de 2 núcleos (decisão D10).
 
+Objetivo da pesquisa, roteiro falado e respostas para as perguntas prováveis: `docs/guia-apresentacao.md`.
+
 ## Instalação (uma vez, ~5 min; ~2 min ao refazer com os downloads em cache)
 
 ```bash
